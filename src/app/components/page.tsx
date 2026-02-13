@@ -1,7 +1,16 @@
 import Link from "next/link"
 import { publishedComponentDocs } from "@/app/components/_lib/docs"
 
-export default function ComponentsHomePage() {
+interface ComponentsHomePageProps {
+  searchParams?: Promise<{ mode?: string }>
+}
+
+export default async function ComponentsHomePage({
+  searchParams,
+}: ComponentsHomePageProps) {
+  const resolvedSearchParams = searchParams ? await searchParams : undefined
+  const modeQuery = resolvedSearchParams?.mode === "radix" ? "?mode=radix" : ""
+
   return (
     <article className="mx-auto w-full max-w-4xl space-y-10">
       <header className="border-b border-border/80 pb-3">
@@ -18,7 +27,7 @@ export default function ComponentsHomePage() {
           {publishedComponentDocs.map((item) => (
             <Link
               key={item.slug}
-              href={`/components/${item.slug}`}
+              href={`/components/${item.slug}${modeQuery}`}
               className="border border-border px-4 py-3 transition-colors hover:bg-[color:var(--background)]"
             >
               <div className="flex items-center justify-between gap-3">

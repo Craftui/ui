@@ -1,9 +1,14 @@
 import { notFound, redirect } from "next/navigation"
 import { ComponentDocContent } from "@/app/components/_components/component-doc-content"
-import { getComponentDoc, publishedComponentDocs } from "@/app/components/_lib/docs"
+import {
+  getComponentDoc,
+  publishedComponentDocs,
+  type DocMode,
+} from "@/app/components/_lib/docs"
 
 interface ComponentPageProps {
   params: Promise<{ slug: string }>
+  searchParams?: Promise<{ mode?: string }>
 }
 
 export async function generateStaticParams() {
@@ -12,9 +17,15 @@ export async function generateStaticParams() {
   }))
 }
 
-export default async function ComponentPage({ params }: ComponentPageProps) {
+export default async function ComponentPage({
+  params,
+  searchParams,
+}: ComponentPageProps) {
   const { slug } = await params
+  const resolvedSearchParams = searchParams ? await searchParams : undefined
   const normalizedSlug = decodeURIComponent(slug).toLowerCase()
+  const initialMode: DocMode =
+    resolvedSearchParams?.mode === "radix" ? "radix" : "base"
   const doc = getComponentDoc(normalizedSlug)
 
   if (!doc) {
@@ -24,5 +35,5 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
     notFound()
   }
 
-  return <ComponentDocContent component={doc} />
+  return <ComponentDocContent component={doc} initialMode={initialMode} />
 }

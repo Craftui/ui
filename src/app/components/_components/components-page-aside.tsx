@@ -2,11 +2,14 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { publishedComponentDocs, tocItems } from "@/app/components/_lib/docs"
 
 function ComponentsPageAsideImpl() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const mode = searchParams.get("mode")
+  const modeQuery = mode === "radix" ? "?mode=radix" : ""
   const isComponentsIndex = pathname === "/components"
 
   return (
@@ -19,7 +22,7 @@ function ComponentsPageAsideImpl() {
           {publishedComponentDocs.map((item) => (
             <Link
               key={item.slug}
-              href={`/components/${item.slug}`}
+              href={`/components/${item.slug}${modeQuery}`}
               className="block py-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               {item.name}

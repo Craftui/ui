@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { useCodeBlock } from "@/components/ui/use-code-block"
 
 export type CodeBlockProps = {
@@ -160,21 +161,27 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
     >
       <div className="flex min-w-0 items-center gap-2">
         {tabs.length ? (
-          <div className="flex items-center gap-1">
+          <div
+            role="tablist"
+            aria-label="Code variants"
+            className="flex min-w-0 items-end gap-1"
+          >
             {tabs.map((tab) => (
-              <button
+              <Button
                 key={tab.id}
                 type="button"
+                role="tab"
+                aria-selected={activeTabId === tab.id}
                 onClick={() => setActiveTabId(tab.id)}
+                variant="ghost"
+                size="sm"
                 className={cn(
-                  "rounded-md px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground",
-                  activeTabId === tab.id &&
-                    "border border-border/80 bg-card text-foreground"
+                  "h-7 rounded-none border-b-2 border-transparent px-1.5 font-mono text-[11px] lowercase tracking-normal text-muted-foreground hover:bg-transparent hover:text-foreground",
+                  activeTabId === tab.id && "border-foreground text-foreground"
                 )}
-                aria-pressed={activeTabId === tab.id}
               >
                 {tab.label}
-              </button>
+              </Button>
             ))}
           </div>
         ) : (
@@ -229,14 +236,16 @@ function CodeBlockCopyButton({ className }: CodeBlockCopyButtonProps) {
   }, [code])
 
   return (
-    <button
+    <Button
       type="button"
       onClick={handleCopy}
       aria-label={copied ? "Copied" : "Copy code"}
+      variant="outline"
+      size={copyButtonMode === "icon" ? "icon" : "sm"}
       className={cn(
         copyButtonMode === "icon"
-          ? "inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/80 text-muted-foreground transition-colors hover:text-foreground"
-          : "rounded-md border border-border/80 px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground",
+          ? "h-7 w-7 p-0 text-muted-foreground hover:text-foreground"
+          : "h-7 px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground hover:text-foreground",
         className
       )}
     >
@@ -269,7 +278,7 @@ function CodeBlockCopyButton({ className }: CodeBlockCopyButtonProps) {
       ) : (
         "Copy"
       )}
-    </button>
+    </Button>
   )
 }
 
@@ -365,14 +374,16 @@ function CodeBlockBody({ className }: CodeBlockBodyProps) {
 
       {shouldCollapse && !expanded ? (
         <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-20 items-end justify-center bg-gradient-to-t from-card via-card/90 to-transparent p-3">
-          <button
+          <Button
             type="button"
             onClick={() => setExpanded(true)}
-            className="pointer-events-auto rounded-md border border-border/80 bg-card px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground"
+            variant="outline"
+            size="sm"
+            className="pointer-events-auto h-7 px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground hover:text-foreground"
             aria-expanded={expanded}
           >
             {`Show more (${hiddenLineCount} lines)`}
-          </button>
+          </Button>
         </div>
       ) : null}
     </div>
@@ -392,14 +403,16 @@ function CodeBlockCollapseButton({ className }: CodeBlockCollapseButtonProps) {
 
   return (
     <div className={cn("flex justify-center px-3 pb-3", className)}>
-      <button
+      <Button
         type="button"
         onClick={() => setExpanded(false)}
-        className="rounded-md border border-border/80 px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground"
+        variant="outline"
+        size="sm"
+        className="h-7 px-2 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground hover:text-foreground"
         aria-expanded={expanded}
       >
         Show less
-      </button>
+      </Button>
     </div>
   )
 }

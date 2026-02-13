@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { publishedComponentDocs } from "@/app/components/_lib/docs"
 
@@ -21,6 +21,9 @@ const groups = [
 
 function ComponentsSidebarNavImpl() {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const mode = searchParams.get("mode")
+  const modeQuery = mode === "radix" ? "?mode=radix" : ""
   const isComponentsIndex = pathname === "/components"
   const activeSlug = isComponentsIndex
     ? undefined
@@ -59,7 +62,7 @@ function ComponentsSidebarNavImpl() {
                 return (
                   <Link
                     key={item.slug}
-                    href={`/components/${item.slug}`}
+                    href={`/components/${item.slug}${modeQuery}`}
                     className={cn(
                       "flex w-full items-center justify-between border-b border-border/60 px-2 py-2 text-left text-sm text-muted-foreground transition-colors hover:text-foreground",
                       isActive && "border-foreground text-foreground [border-bottom-width:2px] font-medium"

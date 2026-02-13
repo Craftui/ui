@@ -1,21 +1,29 @@
 "use client"
 
 import { CodeBlock } from "@/components/ui/code-block"
-import { type InstallationSpec } from "@/app/components/_lib/docs"
+import { type DocMode, type InstallationSpec } from "@/app/components/_lib/docs"
 
 type InstallationCommandBlockProps = {
+  mode: DocMode
   installation: InstallationSpec
 }
 
-export function InstallationCommandBlock({
-  installation,
-}: InstallationCommandBlockProps) {
+function toPackageManagerCommands(command: string) {
+  const stripped = command.replace(/^bunx\s+/, "")
+  return [
+    { id: "bun", label: "bun", language: "bash", code: `bunx ${stripped}` },
+    { id: "npm", label: "npm", language: "bash", code: `npx ${stripped}` },
+    { id: "pnpm", label: "pnpm", language: "bash", code: `pnpm dlx ${stripped}` },
+    { id: "yarn", label: "yarn", language: "bash", code: `yarn dlx ${stripped}` },
+  ]
+}
+
+export function InstallationCommandBlock({ mode, installation }: InstallationCommandBlockProps) {
+  const managerTabs = toPackageManagerCommands(installation[mode])
+
   return (
     <CodeBlock
-      tabs={[
-        { id: "base", label: "Base", language: "bash", code: installation.base },
-        { id: "radix", label: "Radix", language: "bash", code: installation.radix },
-      ]}
+      tabs={managerTabs}
       showLineNumbers={false}
       wrap
       collapsible={false}

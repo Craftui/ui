@@ -5,9 +5,15 @@ export type ApiProp = {
   description: string
 }
 
-export type InstallationSpec = {
-  base: string
-  radix: string
+export type DocMode = "base" | "radix"
+
+export type InstallationSpec = Record<DocMode, string>
+
+export type ComponentDocModeContent = {
+  summary?: string
+  description?: string
+  api?: ApiProp[]
+  a11y?: string[]
 }
 
 export type ComponentDoc = {
@@ -21,6 +27,7 @@ export type ComponentDoc = {
   installation: InstallationSpec
   api: ApiProp[]
   a11y: string[]
+  modeContent?: Partial<Record<DocMode, ComponentDocModeContent>>
 }
 
 export const componentDocs: ComponentDoc[] = [
@@ -248,6 +255,16 @@ export const publishedComponentDocs = componentDocs.filter(
 
 export function getComponentDoc(slug: string) {
   return publishedComponentDocs.find((item) => item.slug === slug)
+}
+
+export function resolveComponentDocContent(doc: ComponentDoc, mode: DocMode) {
+  const modeContent = doc.modeContent?.[mode]
+  return {
+    summary: modeContent?.summary ?? doc.summary,
+    description: modeContent?.description ?? doc.description,
+    api: modeContent?.api ?? doc.api,
+    a11y: modeContent?.a11y ?? doc.a11y,
+  }
 }
 
 export const tocItems = [
