@@ -37,7 +37,7 @@ export function SiteHeader() {
           >
             Get started
           </Link>
-          <Button className="hidden md:inline-flex">Explore registry</Button>
+          <Button className="hidden md:inline-flex">Explore components</Button>
         </div>
       </div>
       <div className="border-t border-border/60 md:hidden">

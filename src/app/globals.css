@@ -89,5 +89,4 @@ body {
 .glass-card {
   background-color: var(--card);
   border: 1px solid var(--border);
-  box-shadow: 0 25px 60px rgba(32, 26, 22, 0.08);
 }
