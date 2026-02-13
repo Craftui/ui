@@ -118,10 +118,10 @@ export default function Home() {
           <h3 className="font-display text-2xl">Install from the CLI</h3>
           <div className="mt-6 space-y-4 text-sm text-muted-foreground">
             <div className="rounded-2xl border border-border/70 bg-white/70 p-4 font-mono text-xs text-foreground">
-              bunx shadcn@latest add button --registry https://craftui.ai/r/base
+              bunx shadcn@latest add button --registry https://craftui.dev/r/base
             </div>
             <div className="rounded-2xl border border-border/70 bg-white/70 p-4 font-mono text-xs text-foreground">
-              bunx shadcn@latest add button --registry https://craftui.ai/r/radix
+              bunx shadcn@latest add button --registry https://craftui.dev/r/radix
             </div>
           </div>
         </div>
