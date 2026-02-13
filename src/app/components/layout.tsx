@@ -1,7 +1,9 @@
+import { ComponentsDocsLayout } from "@/app/components/_components/components-docs-layout"
+
 export default function ComponentsLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <div className="w-full overflow-x-hidden">{children}</div>
+  return <ComponentsDocsLayout>{children}</ComponentsDocsLayout>
 }

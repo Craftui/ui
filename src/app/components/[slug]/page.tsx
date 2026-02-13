@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation"
-import { ComponentDocShell } from "@/app/components/_components/component-doc-shell"
+import { ComponentDocContent } from "@/app/components/_components/component-doc-content"
 import { componentDocs, getComponentDoc } from "@/app/components/_lib/docs"
 
 interface ComponentPageProps {
@@ -24,5 +24,5 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
     notFound()
   }
 
-  return <ComponentDocShell activeComponent={doc} />
+  return <ComponentDocContent component={doc} />
 }
