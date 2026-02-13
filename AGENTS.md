@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `src/app/`: Next.js App Router pages and layouts (`page.tsx`, route folders like `about/`, `changelog/`, `components/`).
+- `src/app/`: Next.js App Router pages and layouts (`page.tsx`, route folders like `about/`, `components/`).
 - `src/components/`: shared UI and site chrome (`site-header.tsx`, `site-footer.tsx`, `ui/` primitives).
 - `src/lib/`: utility helpers (for example `utils.ts`).
 - `registry/` + `registry.*.json`: shadcn-style registry sources for Base and Radix variants.
@@ -49,7 +49,7 @@
 ## Testing Guidelines
 - There is no formal test suite configured yet.
 - Minimum quality gate: `npm run lint` + manual verification in `npm run dev`.
-- For UI changes, validate responsive behavior (mobile + desktop) and key routes (`/`, `/components`, `/about`, `/changelog`).
+- For UI changes, validate responsive behavior (mobile + desktop) and key routes (`/`, `/components`, `/about`).
 
 ## Commit & Pull Request Guidelines
 - Use concise, scoped commit messages. Preferred format: `type(scope): summary`.

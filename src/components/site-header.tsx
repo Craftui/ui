@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/components", label: "Components" },
-  { href: "/changelog", label: "Changelog" },
   { href: "/about", label: "About" },
 ]
 
