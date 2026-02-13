@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "craftui-radix",
+  "homepage": "https://github.com/Craftui/ui",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "Shared className utility.",
+      "files": [
+        {
+          "path": "registry/shared/utils.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "dependencies": ["clsx", "tailwind-merge"]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Radix-friendly button with responsive press feedback.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/radix/button/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["@radix-ui/react-slot", "class-variance-authority"]
+    }
+  ]
+}
+

@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "registry:build:base": "shadcn build --output ./public/r/base ./registry.base.json",
+    "registry:build:radix": "shadcn build --output ./public/r/radix ./registry.radix.json",
+    "registry:build": "npm run registry:build:base && npm run registry:build:radix"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
