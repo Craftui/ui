@@ -1,6 +1,6 @@
 export default function AboutPage() {
   return (
-    <div className="space-y-12">
+    <div className="mx-auto w-full max-w-6xl space-y-12 px-6 py-10">
       <header className="space-y-4">
         <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
           About
@@ -13,9 +13,7 @@ export default function AboutPage() {
       </header>
 
       <div className="glass-card rounded-3xl p-8">
-        <h2 className="font-display text-3xl">
-          Interfaces should answer back.
-        </h2>
+        <h2 className="font-display text-3xl">Interfaces should answer back.</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           CraftUI ships components with carefully tuned feedback loops,
           origin-aware animation, and clear API surfaces that feel effortless to

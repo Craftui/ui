@@ -3,9 +3,5 @@ export default function ComponentsLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
-    <div className="relative left-1/2 -mt-10 w-dvw max-w-none -translate-x-1/2 overflow-x-hidden">
-      {children}
-    </div>
-  )
+  return <div className="w-full overflow-x-hidden">{children}</div>
 }

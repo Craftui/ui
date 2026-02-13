@@ -13,7 +13,7 @@ const updates = [
 
 export default function ChangelogPage() {
   return (
-    <div className="space-y-10">
+    <div className="mx-auto w-full max-w-6xl space-y-10 px-6 py-10">
       <header className="space-y-4">
         <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">
           Changelog
@@ -38,4 +38,3 @@ export default function ChangelogPage() {
     </div>
   )
 }
-

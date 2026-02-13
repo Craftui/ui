@@ -22,16 +22,14 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} antialiased`}>
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-[color:var(--background)]">
           <SiteHeader />
-          <main className="mx-auto w-full max-w-6xl px-6 pt-10">
-            {children}
-          </main>
+          <main className="w-full">{children}</main>
           <SiteFooter />
         </div>
       </body>
