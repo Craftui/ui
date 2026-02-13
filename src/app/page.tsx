@@ -21,7 +21,7 @@ const principles = [
 
 export default function Home() {
   return (
-    <div className="space-y-20">
+    <div className="space-y-20 pb-20">
       <section className="grid gap-12 pt-6 lg:grid-cols-[1.2fr_0.8fr]">
         <div className="space-y-6">
           <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">

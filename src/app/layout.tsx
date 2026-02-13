@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={`${display.variable} ${body.variable} antialiased`}>
         <div className="min-h-screen">
           <SiteHeader />
-          <main className="mx-auto w-full max-w-6xl px-6 pb-20 pt-10">
+          <main className="mx-auto w-full max-w-6xl px-6 pt-10">
             {children}
           </main>
           <SiteFooter />

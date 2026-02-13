@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "craftui-base",
+  "homepage": "https://github.com/Craftui/ui",
+  "items": [
+    {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "Shared className utility.",
+      "files": [
+        {
+          "path": "registry/shared/utils.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "dependencies": ["clsx", "tailwind-merge"]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Base UI button with responsive press feedback.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/base/button/button.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority"]
+    }
+  ]
+}
+
