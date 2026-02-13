@@ -26,7 +26,7 @@ export default function ChangelogPage() {
 
       <div className="space-y-6">
         {updates.map((item) => (
-          <div key={item.title} className="glass-card rounded-2xl p-6">
+          <div key={item.title} className="rounded-2xl border border-border bg-card p-6">
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
               {item.date}
             </p>

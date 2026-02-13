@@ -12,7 +12,7 @@ export default function AboutPage() {
         </p>
       </header>
 
-      <div className="glass-card rounded-3xl p-8">
+      <div className="rounded-3xl border border-border bg-card p-8">
         <h2 className="font-display text-3xl">Interfaces should answer back.</h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
           CraftUI ships components with carefully tuned feedback loops,

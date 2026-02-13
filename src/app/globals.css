@@ -75,18 +75,9 @@ body {
   color: var(--foreground);
   font-family: var(--font-body), "Work Sans", ui-sans-serif, system-ui,
     sans-serif;
-  background-image:
-    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.65), transparent 55%),
-    radial-gradient(circle at 100% 0%, rgba(255, 250, 240, 0.7), transparent 48%),
-    linear-gradient(180deg, #fdfbf7 0%, #f7f4ef 38%, #f2ece2 100%);
   min-height: 100%;
 }
 
 .font-display {
   font-family: var(--font-display), "Fraunces", "Times New Roman", serif;
-}
-
-.glass-card {
-  background-color: var(--card);
-  border: 1px solid var(--border);
 }
