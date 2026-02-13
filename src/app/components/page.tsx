@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { componentDocs } from "@/app/components/_lib/docs"
+import { publishedComponentDocs } from "@/app/components/_lib/docs"
 
 export default function ComponentsHomePage() {
   return (
@@ -15,7 +15,7 @@ export default function ComponentsHomePage() {
 
       <section className="space-y-3">
         <div className="grid gap-3 sm:grid-cols-2">
-          {componentDocs.map((item) => (
+          {publishedComponentDocs.map((item) => (
             <Link
               key={item.slug}
               href={`/components/${item.slug}`}
@@ -23,9 +23,11 @@ export default function ComponentsHomePage() {
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="font-medium">{item.name}</span>
-                <span className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                  {item.status}
-                </span>
+                {item.isNew ? (
+                  <span className="rounded-full border border-border/80 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-foreground">
+                    New
+                  </span>
+                ) : null}
               </div>
               <p className="mt-2 text-xs text-muted-foreground">{item.summary}</p>
             </Link>

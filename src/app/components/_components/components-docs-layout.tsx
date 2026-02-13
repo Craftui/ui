@@ -3,18 +3,20 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { componentDocs, tocItems } from "@/app/components/_lib/docs"
+import { publishedComponentDocs, tocItems } from "@/app/components/_lib/docs"
 
 const groups = [
   {
     name: "Foundations",
-    items: componentDocs.filter((item) => item.category === "Foundations"),
+    items: publishedComponentDocs.filter(
+      (item) => item.category === "Foundations"
+    ),
   },
   {
     name: "Overlays",
-    items: componentDocs.filter((item) => item.category === "Overlays"),
+    items: publishedComponentDocs.filter((item) => item.category === "Overlays"),
   },
-]
+].filter((group) => group.items.length > 0)
 
 export function ComponentsDocsLayout({
   children,
@@ -69,9 +71,11 @@ export function ComponentsDocsLayout({
                           aria-current={isActive ? "page" : undefined}
                         >
                           <span>{item.name}</span>
-                          <span className="text-[10px] uppercase tracking-[0.18em]">
-                            {item.status}
-                          </span>
+                          {item.isNew ? (
+                            <span className="rounded-full border border-border/80 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-foreground">
+                              New
+                            </span>
+                          ) : null}
                         </Link>
                       )
                     })}
@@ -91,7 +95,7 @@ export function ComponentsDocsLayout({
             </p>
             {isComponentsIndex ? (
               <nav className="mt-4" aria-label="Component quick links">
-                {componentDocs.map((item) => (
+                {publishedComponentDocs.map((item) => (
                   <Link
                     key={item.slug}
                     href={`/components/${item.slug}`}

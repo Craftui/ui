@@ -9,6 +9,7 @@ export type ComponentDoc = {
   slug: string
   name: string
   status: "Available" | "In progress" | "Planned"
+  isNew?: boolean
   category: "Foundations" | "Overlays"
   summary: string
   description: string
@@ -22,6 +23,7 @@ export const componentDocs: ComponentDoc[] = [
     slug: "button",
     name: "Button",
     status: "Available",
+    isNew: true,
     category: "Foundations",
     summary: "A tactile action trigger with clear visual priority.",
     description:
@@ -170,8 +172,12 @@ export const componentDocs: ComponentDoc[] = [
   },
 ]
 
+export const publishedComponentDocs = componentDocs.filter(
+  (item) => item.status === "Available"
+)
+
 export function getComponentDoc(slug: string) {
-  return componentDocs.find((item) => item.slug === slug)
+  return publishedComponentDocs.find((item) => item.slug === slug)
 }
 
 export const tocItems = [

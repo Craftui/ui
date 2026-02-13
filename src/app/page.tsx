@@ -1,23 +1,23 @@
 const exclusiveComponents = [
   {
-    name: "Pulse Hint",
-    status: "Shipping",
-    detail: "Context cues that surface only when users pause.",
+    name: "Intent Tooltip",
+    status: "Available",
+    detail: "Context tooltips that appear only when they add decision value.",
   },
   {
-    name: "Edge Dock",
+    name: "Anchor Toolbar",
     status: "Preview",
-    detail: "Pinned tools that stay light but feel physically anchored.",
+    detail: "A compact floating action bar that stays readable on scroll.",
   },
   {
-    name: "Timeline Scrub",
+    name: "Timeline Scrubber",
     status: "Soon",
-    detail: "Micro-scrubbing interactions for dense workflows.",
+    detail: "Precise timeline control built for dense editing interfaces.",
   },
   {
-    name: "Ghost Queue",
+    name: "Task Progress Rail",
     status: "Lab",
-    detail: "Background jobs with calm, live progress feedback.",
+    detail: "Inline progress states for long-running actions without modal interruption.",
   },
 ]
 
@@ -59,19 +59,19 @@ export default function Home() {
           <aside className="order-2 lg:order-1">
             <div className="sticky top-10 space-y-5 pt-1">
               <p className="text-[11px] uppercase tracking-[0.4em] text-muted-foreground">
-                Built differently
+                UI component track
               </p>
               <h2 className="font-display text-[clamp(1.9rem,4.8vw,4.1rem)] leading-[0.96] tracking-tight">
-                Crafted
+                Built for
                 <br />
-                for product
+                real product
                 <br />
-                velocity.
+                interfaces.
               </h2>
               <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
-                We are staging a few exclusive blocks before release. They are
-                designed for real product teams that need expressive polish
-                without complexity.
+                These are upcoming UI components, not product features. Each
+                block focuses on clarity, interaction feedback, and production
+                usability.
               </p>
             </div>
           </aside>

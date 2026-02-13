@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -32,7 +32,12 @@ export function SiteHeader() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Button className="hidden md:inline-flex">Explore components</Button>
+            <Link
+              href="/components"
+              className={buttonVariants({ className: "hidden md:inline-flex" })}
+            >
+              Explore components
+            </Link>
           </div>
         </div>
       </div>

@@ -6,13 +6,11 @@ import { type ComponentDoc } from "@/app/components/_lib/docs"
 function renderComponentDemo(doc: ComponentDoc) {
   if (doc.slug === "button") {
     return (
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex w-full flex-wrap items-center justify-center gap-3">
         <Button>Default</Button>
-        <Button variant="secondary">Secondary</Button>
-        <Button variant="destructive">Destructive</Button>
-        <Button variant="outline">Outline</Button>
-        <Button variant="ghost">Ghost</Button>
-        <Button variant="link">Link</Button>
+        <Button size="icon" aria-label="Add item">
+          +
+        </Button>
       </div>
     )
   }
@@ -74,9 +72,10 @@ export function ComponentDocContent({ component }: ComponentDocContentProps) {
         </p>
       </section>
 
-      <section id="demo" className="space-y-4 scroll-mt-20">
-        <h3 className="font-display text-2xl">Interactive demo</h3>
-        <div className="border border-border p-5">{renderComponentDemo(component)}</div>
+      <section id="demo" className="scroll-mt-20">
+        <div className="flex min-h-56 items-center rounded-2xl border border-border/80 bg-accent/55 p-8 md:min-h-64 md:p-10">
+          {renderComponentDemo(component)}
+        </div>
       </section>
 
       <section id="installation" className="space-y-3 scroll-mt-20">

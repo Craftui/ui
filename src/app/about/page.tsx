@@ -1,38 +1,46 @@
 export default function AboutPage() {
   return (
     <div>
-      <section className="relative overflow-hidden px-6 py-12 md:px-10 lg:px-14">
-        <div
-          className="pointer-events-none absolute inset-[-28%] blur-[5px]"
-          aria-hidden="true"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 14% 14%, rgba(255, 255, 255, 0.92), transparent 30%), radial-gradient(circle at 83% 22%, rgba(241, 230, 215, 0.56), transparent 29%), radial-gradient(circle at 58% 84%, rgba(232, 212, 186, 0.28), transparent 34%)",
-          }}
-        />
-        <div className="relative mx-auto w-full max-w-[1320px]">
-          <div className="mx-auto max-w-4xl space-y-6 text-center">
+      <section className="border-b border-border/70 px-6 py-10 md:px-10 md:py-12 lg:px-14">
+        <div className="mx-auto grid w-full max-w-[1320px] gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+          <div className="max-w-3xl space-y-5">
             <p className="text-[11px] uppercase tracking-[0.4em] text-muted-foreground">
               About CraftUI
             </p>
-            <h1 className="font-display text-[clamp(2.2rem,7vw,6rem)] leading-[0.95] tracking-[-0.02em] text-balance">
-              Built by one developer
-              <br />
-              for products that should
-              <br />
-              age with dignity.
+            <h1 className="font-display text-[clamp(2rem,4.8vw,3.7rem)] leading-[0.97] tracking-[-0.02em] text-balance">
+              Built by one developer for products that should age with dignity.
             </h1>
-            <p className="mx-auto max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
               CraftUI is a small library with a specific belief: interface style
               should not expire every season. We design for evergreen clarity,
               antique character, and subtle feedback that makes software feel
               responsive without noise.
             </p>
           </div>
+
+          <div className="max-w-md rounded-2xl border border-border/80 bg-background/70 p-5 lg:justify-self-end">
+            <p className="text-[11px] uppercase tracking-[0.4em] text-muted-foreground">
+              Design intent
+            </p>
+            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground md:text-[0.98rem]">
+              <li className="border-b border-border/70 pb-3">
+                Structured layouts that prioritize reading rhythm before
+                ornament.
+              </li>
+              <li className="border-b border-border/70 pb-3">
+                Warm, low-noise visuals grounded in tokens and consistent
+                spacing.
+              </li>
+              <li>
+                Intentional motion that clarifies interaction without adding
+                visual clutter.
+              </li>
+            </ul>
+          </div>
         </div>
       </section>
 
-      <section className="border-y border-border/70 px-6 py-12 md:px-10 lg:px-14">
+      <section className="border-y border-border/70 px-6 py-10 md:px-10 md:py-12 lg:px-14">
         <div className="mx-auto grid w-full max-w-[1320px] gap-10 lg:grid-cols-[0.72fr_1.28fr]">
           <div className="space-y-5">
             <p className="text-[11px] uppercase tracking-[0.4em] text-muted-foreground">
@@ -88,13 +96,17 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-6 py-12 md:px-10 lg:px-14">
+      <section className="px-6 py-10 md:px-10 md:py-12 lg:px-14">
         <div className="mx-auto w-full max-w-[1320px]">
-          <p className="mx-auto max-w-3xl text-center text-sm leading-relaxed text-muted-foreground md:text-base">
-            CraftUI is not trying to look new. It is trying to stay good.
-            Durable visual language, thoughtful interaction cues, and components
-            that feel composed in real products.
-          </p>
+          <div>
+            <p className="max-w-4xl font-display text-[clamp(1.35rem,3.2vw,2.35rem)] leading-[1.08] tracking-tight">
+              CraftUI is not trying to look new. It is trying to stay good.
+            </p>
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+              Durable visual language, thoughtful interaction cues, and
+              components that feel composed in real products.
+            </p>
+          </div>
         </div>
       </section>
     </div>
