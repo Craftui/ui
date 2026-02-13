@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { CodeBlock } from "@/components/ui/code-block"
 import { cn } from "@/lib/utils"
 import { type ComponentDoc } from "@/app/components/_lib/docs"
 
@@ -43,6 +44,38 @@ function renderComponentDemo(doc: ComponentDoc) {
     )
   }
 
+  if (doc.slug === "code-block") {
+    return (
+      <CodeBlock
+        filename="code-block.tsx"
+        language="tsx"
+        code={`import { CodeBlock } from "@/components/ui/code-block"
+
+const snippet = \`export function ProductHeader() {
+  return (
+    <header className="border-b border-border/70 p-4">
+      <h1 className="font-display text-2xl">CraftUI</h1>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Components that stay readable over time.
+      </p>
+    </header>
+  )
+}\`
+
+export function DocsExample() {
+  return (
+    <CodeBlock
+      filename="product-header.tsx"
+      language="tsx"
+      code={snippet}
+      maxCollapsedLines={6}
+    />
+  )
+}`}
+      />
+    )
+  }
+
   return (
     <label className="inline-flex items-center gap-3 text-sm">
       <input type="checkbox" className="h-4 w-4 accent-current" />
@@ -73,7 +106,7 @@ export function ComponentDocContent({ component }: ComponentDocContentProps) {
       </section>
 
       <section id="demo" className="scroll-mt-20">
-        <div className="flex min-h-56 items-center rounded-2xl border border-border/80 bg-accent/55 p-8 md:min-h-64 md:p-10">
+        <div className="flex min-h-56 w-full items-center justify-center rounded-2xl border border-border/80 bg-accent/55 p-8 md:min-h-64 md:p-10">
           {renderComponentDemo(component)}
         </div>
       </section>

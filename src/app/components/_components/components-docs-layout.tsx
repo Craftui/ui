@@ -71,11 +71,6 @@ export function ComponentsDocsLayout({
                           aria-current={isActive ? "page" : undefined}
                         >
                           <span>{item.name}</span>
-                          {item.isNew ? (
-                            <span className="rounded-full border border-border/80 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-foreground">
-                              New
-                            </span>
-                          ) : null}
                         </Link>
                       )
                     })}

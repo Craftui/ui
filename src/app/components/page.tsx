@@ -23,11 +23,6 @@ export default function ComponentsHomePage() {
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="font-medium">{item.name}</span>
-                {item.isNew ? (
-                  <span className="rounded-full border border-border/80 px-2 py-0.5 text-[10px] uppercase tracking-[0.14em] text-foreground">
-                    New
-                  </span>
-                ) : null}
               </div>
               <p className="mt-2 text-xs text-muted-foreground">{item.summary}</p>
             </Link>
