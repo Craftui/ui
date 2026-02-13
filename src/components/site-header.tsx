@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/components", label: "Components" },
-  { href: "/docs", label: "Docs" },
   { href: "/changelog", label: "Changelog" },
   { href: "/about", label: "About" },
 ]
@@ -32,7 +31,7 @@ export function SiteHeader() {
         </nav>
         <div className="flex items-center gap-3">
           <Link
-            href="/docs"
+            href="/components"
             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             Get started

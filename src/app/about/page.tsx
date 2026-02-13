@@ -17,9 +17,9 @@ export default function AboutPage() {
           Interfaces should answer back.
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-          CraftUI is inspired by Emil Kowalski&apos;s thesis on tactile UI. We aim
-          to ship components with carefully tuned feedback loops, origin-aware
-          animation, and clear API surfaces that feel effortless to use.
+          CraftUI ships components with carefully tuned feedback loops,
+          origin-aware animation, and clear API surfaces that feel effortless to
+          use.
         </p>
       </div>
 
@@ -55,4 +55,3 @@ export default function AboutPage() {
     </div>
   )
 }
-

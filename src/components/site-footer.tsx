@@ -1,7 +1,6 @@
 import Link from "next/link"
 
 const footerLinks = [
-  { href: "/docs", label: "Docs" },
   { href: "/components", label: "Components" },
   { href: "/changelog", label: "Changelog" },
   { href: "/about", label: "About" },
@@ -14,8 +13,8 @@ export function SiteFooter() {
         <div className="space-y-2">
           <p className="font-display text-lg">CraftUI Registry</p>
           <p className="max-w-md text-sm text-muted-foreground">
-            An editorial, light-first registry inspired by Emil Kowalski&apos;s
-            interaction philosophy. Built for calm, responsive interfaces.
+            An editorial, light-first registry built for calm, responsive
+            interfaces with practical interaction patterns.
           </p>
         </div>
         <div className="flex flex-wrap gap-6 text-sm text-muted-foreground">
@@ -36,4 +35,3 @@ export function SiteFooter() {
     </footer>
   )
 }
-

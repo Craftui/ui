@@ -31,13 +31,13 @@ export default function Home() {
             A calm, editorial registry for animated interfaces.
           </h1>
           <p className="max-w-xl text-lg text-muted-foreground">
-            Inspired by Emil Kowalski&apos;s interaction thesis. We ship gentle,
-            tactile UI with clear APIs for both Base UI and Radix UI.
+            We ship gentle, tactile UI with clear APIs for both Base UI and
+            Radix UI.
           </p>
           <div className="flex flex-wrap items-center gap-4">
             <Button size="lg">Browse components</Button>
             <Button variant="outline" size="lg">
-              Read the docs
+              Explore changelog
             </Button>
           </div>
           <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
@@ -68,10 +68,10 @@ export default function Home() {
                 <span>Radix UI: /r/radix</span>
               </div>
               <Link
-                href="/docs"
+                href="/components"
                 className="text-sm font-medium text-foreground underline-offset-4 hover:underline"
               >
-                See usage in Docs
+                See usage in Components
               </Link>
             </div>
           </div>
