@@ -10,7 +10,7 @@ const navItems = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/70 bg-[color:var(--background)]/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-transparent">
       <div className="w-full px-5 py-4 md:px-8 lg:px-10">
         <div className="flex w-full items-center justify-between gap-6">
           <Link href="/" className="flex items-baseline gap-2">
@@ -44,7 +44,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="border-t border-border/60 md:hidden">
+      <div className="border-t border-border/50 md:hidden">
         <div className="flex w-full flex-wrap items-center gap-4 px-5 py-3 text-sm text-muted-foreground">
           {navItems.map((item) => (
             <Link
