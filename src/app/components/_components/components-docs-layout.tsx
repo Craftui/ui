@@ -30,9 +30,26 @@ export function ComponentsDocsLayout({
       <div className="mx-auto grid min-h-[calc(100vh-170px)] w-full grid-cols-1 xl:grid-cols-[300px_minmax(0,1fr)_250px]">
         <aside className="border-r border-border/80 bg-[color:var(--background)]/95 px-6 py-8">
           <div className="sticky top-6 space-y-6">
-            <h1 className="font-display text-2xl tracking-tight">Components</h1>
-
             <nav className="space-y-4" aria-label="Component navigation">
+              <details open>
+                <summary className="cursor-pointer select-none py-1 text-sm font-medium">
+                  Docs
+                </summary>
+                <div className="mt-2 space-y-1">
+                  <Link
+                    href="/components"
+                    className={cn(
+                      "flex w-full items-center justify-between border-b border-border/60 px-2 py-2 text-left text-sm text-muted-foreground transition-colors hover:text-foreground",
+                      isComponentsIndex &&
+                        "border-foreground text-foreground [border-bottom-width:2px] font-medium"
+                    )}
+                    aria-current={isComponentsIndex ? "page" : undefined}
+                  >
+                    <span>Components</span>
+                  </Link>
+                </div>
+              </details>
+
               {groups.map((group) => (
                 <details key={group.name} open>
                   <summary className="cursor-pointer select-none py-1 text-sm font-medium">

@@ -14,7 +14,6 @@ export default function ComponentsHomePage() {
       </header>
 
       <section className="space-y-3">
-        <h3 className="font-display text-2xl">Available docs</h3>
         <div className="grid gap-3 sm:grid-cols-2">
           {componentDocs.map((item) => (
             <Link
