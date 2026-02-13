@@ -26,26 +26,26 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #09090b;
-  --card: #ffffff;
-  --card-foreground: #09090b;
-  --popover: #ffffff;
-  --popover-foreground: #09090b;
-  --primary: #18181b;
-  --primary-foreground: #fafafa;
-  --secondary: #f4f4f5;
-  --secondary-foreground: #18181b;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
-  --destructive: #ef4444;
-  --destructive-foreground: #fafafa;
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #18181b;
-  --radius: 0.5rem;
+  --background: #f7f4ef;
+  --foreground: #1f1a17;
+  --card: #fbf9f6;
+  --card-foreground: #1f1a17;
+  --popover: #fbf9f6;
+  --popover-foreground: #1f1a17;
+  --primary: #1f1a17;
+  --primary-foreground: #f7f4ef;
+  --secondary: #efe8df;
+  --secondary-foreground: #1f1a17;
+  --muted: #efe8df;
+  --muted-foreground: #7a6f66;
+  --accent: #f1e6d7;
+  --accent-foreground: #1f1a17;
+  --destructive: #b42318;
+  --destructive-foreground: #fef2f2;
+  --border: #e3d6c9;
+  --input: #e3d6c9;
+  --ring: #2a231f;
+  --radius: 0.8rem;
 }
 
 .dark {
@@ -73,4 +73,21 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
+  font-family: var(--font-body), "Work Sans", ui-sans-serif, system-ui,
+    sans-serif;
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.65), transparent 55%),
+    radial-gradient(circle at 100% 0%, rgba(255, 250, 240, 0.7), transparent 48%),
+    linear-gradient(180deg, #fdfbf7 0%, #f7f4ef 38%, #f2ece2 100%);
+  min-height: 100%;
+}
+
+.font-display {
+  font-family: var(--font-display), "Fraunces", "Times New Roman", serif;
+}
+
+.glass-card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  box-shadow: 0 25px 60px rgba(32, 26, 22, 0.08);
 }
