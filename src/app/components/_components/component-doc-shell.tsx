@@ -110,12 +110,7 @@ export function ComponentDocShell({ activeComponent }: ComponentDocShellProps) {
   const current = activeComponent
 
   return (
-    <div
-      className={cn(
-        "relative left-1/2 -mt-10 w-full max-w-none -translate-x-1/2 overflow-x-hidden",
-        preset.shell
-      )}
-    >
+    <div className={cn("w-full", preset.shell)}>
       <div className="mx-auto grid min-h-[calc(100vh-170px)] w-full grid-cols-1 xl:grid-cols-[300px_minmax(0,1fr)_250px]">
         <aside className={cn("px-6 py-8", preset.sidebar)}>
           <div className="sticky top-6 space-y-8">
