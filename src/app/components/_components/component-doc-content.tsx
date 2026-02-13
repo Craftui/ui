@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { CodeBlock } from "@/components/ui/code-block"
+import { InstallationCommandBlock } from "@/app/components/_components/installation-command-block"
 import { cn } from "@/lib/utils"
 import { type ComponentDoc } from "@/app/components/_lib/docs"
 
@@ -116,9 +117,7 @@ export function ComponentDocContent({ component }: ComponentDocContentProps) {
         <p className="text-sm text-muted-foreground">
           Add this component through the registry:
         </p>
-        <code className="rounded-md border border-border/80 bg-[color:var(--card)] px-3 py-2 font-mono text-xs">
-          {component.installation}
-        </code>
+        <InstallationCommandBlock installation={component.installation} />
       </section>
 
       <section id="api" className="space-y-3 scroll-mt-20">

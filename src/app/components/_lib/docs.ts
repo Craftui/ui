@@ -5,6 +5,13 @@ export type ApiProp = {
   description: string
 }
 
+export type InstallationSpec =
+  | string
+  | {
+      base?: string
+      radix?: string
+    }
+
 export type ComponentDoc = {
   slug: string
   name: string
@@ -13,7 +20,7 @@ export type ComponentDoc = {
   category: "Foundations" | "Overlays"
   summary: string
   description: string
-  installation: string
+  installation: InstallationSpec
   api: ApiProp[]
   a11y: string[]
 }
@@ -28,8 +35,10 @@ export const componentDocs: ComponentDoc[] = [
     summary: "A tactile action trigger with clear visual priority.",
     description:
       "Buttons communicate intent and hierarchy. CraftUI ships a quiet default style with consistent sizing and semantic variants for primary and supporting actions.",
-    installation:
-      "bunx shadcn@latest add button --registry https://craftui.dev/r/base",
+    installation: {
+      base: "bunx shadcn@latest add button --registry https://craftui.dev/r/base",
+      radix: "bunx shadcn@latest add button --registry https://craftui.dev/r/radix",
+    },
     api: [
       {
         name: "variant",

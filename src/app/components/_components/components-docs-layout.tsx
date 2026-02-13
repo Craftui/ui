@@ -11,7 +11,9 @@ export function ComponentsDocsLayout({
           <ComponentsSidebarNav />
         </aside>
 
-        <section className="bg-[color:var(--background)]/70 px-6 py-8">{children}</section>
+        <section className="bg-[color:var(--background)]/70 px-6 py-8">
+          <div className="mx-auto w-full max-w-[52rem]">{children}</div>
+        </section>
 
         <aside className="hidden border-l border-border/80 bg-[color:var(--background)]/85 px-6 py-8 xl:block">
           <ComponentsPageAside />

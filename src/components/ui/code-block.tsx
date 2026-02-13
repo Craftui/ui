@@ -12,6 +12,7 @@ export type CodeBlockProps = {
   showLineNumbers?: boolean
   collapsible?: boolean
   maxCollapsedLines?: number
+  copyButtonMode?: "text" | "icon"
   className?: string
 }
 
@@ -21,6 +22,7 @@ type CodeBlockContextValue = {
   filename?: string
   wrap: boolean
   showLineNumbers: boolean
+  copyButtonMode: "text" | "icon"
   expanded: boolean
   setExpanded: React.Dispatch<React.SetStateAction<boolean>>
   shouldCollapse: boolean
@@ -50,6 +52,7 @@ function CodeBlockRoot({
   showLineNumbers = true,
   collapsible = true,
   maxCollapsedLines = 6,
+  copyButtonMode = "text",
   className,
   children,
 }: CodeBlockRootProps) {
@@ -62,6 +65,7 @@ function CodeBlockRoot({
       filename,
       wrap,
       showLineNumbers,
+      copyButtonMode,
       expanded: block.expanded,
       setExpanded: block.setExpanded,
       shouldCollapse: block.shouldCollapse,
@@ -78,6 +82,7 @@ function CodeBlockRoot({
       filename,
       language,
       showLineNumbers,
+      copyButtonMode,
       wrap,
     ]
   )
@@ -131,7 +136,7 @@ type CodeBlockCopyButtonProps = {
 }
 
 function CodeBlockCopyButton({ className }: CodeBlockCopyButtonProps) {
-  const { code } = useCodeBlockContext()
+  const { code, copyButtonMode } = useCodeBlockContext()
   const [copied, setCopied] = React.useState(false)
   const timeoutRef = React.useRef<number | null>(null)
 
@@ -160,12 +165,43 @@ function CodeBlockCopyButton({ className }: CodeBlockCopyButtonProps) {
     <button
       type="button"
       onClick={handleCopy}
+      aria-label={copied ? "Copied" : "Copy code"}
       className={cn(
-        "rounded-md border border-border/80 px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground",
+        copyButtonMode === "icon"
+          ? "inline-flex h-7 w-7 items-center justify-center rounded-md border border-border/80 text-muted-foreground transition-colors hover:text-foreground"
+          : "rounded-md border border-border/80 px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground",
         className
       )}
     >
-      {copied ? "Copied" : "Copy"}
+      {copyButtonMode === "icon" ? (
+        copied ? (
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+            className="h-3.5 w-3.5"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M16.704 5.29a1 1 0 010 1.42l-7.25 7.25a1 1 0 01-1.415 0l-3-3a1 1 0 011.414-1.415l2.293 2.293 6.543-6.543a1 1 0 011.415 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+        ) : (
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 20 20"
+            className="h-3.5 w-3.5"
+            fill="currentColor"
+          >
+            <path d="M6 2a2 2 0 00-2 2v8a2 2 0 002 2h1v2a2 2 0 002 2h7a2 2 0 002-2V8a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H6zm7 4V4H6v8h1V8a2 2 0 012-2h4zm-4 2h7v8H9V8z" />
+          </svg>
+        )
+      ) : copied ? (
+        "Copied"
+      ) : (
+        "Copy"
+      )}
     </button>
   )
 }
