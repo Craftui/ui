@@ -14,9 +14,9 @@ export function SiteHeader() {
       <div className="w-full px-5 py-4 md:px-8 lg:px-10">
         <div className="flex w-full items-center justify-between gap-6">
           <Link href="/" className="flex items-baseline gap-2">
-            <span className="font-display text-2xl tracking-tight">CraftUI</span>
+            <span className="font-display text-2xl tracking-tight">Registry</span>
             <span className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-              Registry
+              Components
             </span>
           </Link>
 

@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation"
-import { componentDocs } from "@/app/components/_lib/docs"
+import { ComponentDocShell } from "@/app/components/_components/component-doc-shell"
 
 export default function ComponentsHomePage() {
-  redirect(`/components/${componentDocs[0].slug}`)
+  return <ComponentDocShell />
 }
