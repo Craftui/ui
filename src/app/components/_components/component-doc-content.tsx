@@ -48,31 +48,30 @@ function renderComponentDemo(doc: ComponentDoc) {
   if (doc.slug === "code-block") {
     return (
       <CodeBlock
-        filename="code-block.tsx"
-        language="tsx"
-        code={`import { CodeBlock } from "@/components/ui/code-block"
-
-const snippet = \`export function ProductHeader() {
-  return (
-    <header className="border-b border-border/70 p-4">
-      <h1 className="font-display text-2xl">CraftUI</h1>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Components that stay readable over time.
-      </p>
-    </header>
-  )
-}\`
-
-export function DocsExample() {
-  return (
-    <CodeBlock
-      filename="product-header.tsx"
-      language="tsx"
-      code={snippet}
-      maxCollapsedLines={6}
-    />
-  )
-}`}
+        tabs={[
+          {
+            id: "bun",
+            label: "Bun",
+            language: "bash",
+            code: "bunx shadcn@latest add code-block --registry https://craftui.dev/r/base",
+          },
+          {
+            id: "npm",
+            label: "Npm",
+            language: "bash",
+            code: "npx shadcn@latest add code-block --registry https://craftui.dev/r/base",
+          },
+          {
+            id: "pnpm",
+            label: "Pnpm",
+            language: "bash",
+            code: "pnpm dlx shadcn@latest add code-block --registry https://craftui.dev/r/base",
+          },
+        ]}
+        showLineNumbers={false}
+        wrap
+        collapsible={false}
+        copyButtonMode="icon"
       />
     )
   }

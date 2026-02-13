@@ -5,12 +5,10 @@ export type ApiProp = {
   description: string
 }
 
-export type InstallationSpec =
-  | string
-  | {
-      base?: string
-      radix?: string
-    }
+export type InstallationSpec = {
+  base: string
+  radix: string
+}
 
 export type ComponentDoc = {
   slug: string
@@ -80,8 +78,10 @@ export const componentDocs: ComponentDoc[] = [
     summary: "Interactive snippet container for documentation and guides.",
     description:
       "Code Block is a read-focused surface with utility controls. It supports copy-to-clipboard, line number visibility, wrap toggling, and progressive reveal for long snippets.",
-    installation:
-      "bunx shadcn@latest add code-block --registry https://craftui.dev/r/base",
+    installation: {
+      base: "bunx shadcn@latest add code-block --registry https://craftui.dev/r/base",
+      radix: "bunx shadcn@latest add code-block --registry https://craftui.dev/r/radix",
+    },
     api: [
       {
         name: "code",
@@ -90,10 +90,10 @@ export const componentDocs: ComponentDoc[] = [
         description: "Raw source text rendered inside the block.",
       },
       {
-        name: "language",
-        type: "string",
-        defaultValue: '"text"',
-        description: "Language label shown in the toolbar.",
+        name: "tabs",
+        type: "Array<{ id: string; label: string; code: string; language?: string; filename?: string }>",
+        defaultValue: "undefined",
+        description: "Optional header tabs rendered in place of the language label.",
       },
       {
         name: "filename",
@@ -134,8 +134,10 @@ export const componentDocs: ComponentDoc[] = [
     summary: "Short contextual helper text on focus or hover.",
     description:
       "Tooltips should clarify controls without blocking workflows. The upcoming component is tuned for delayed first-open, then instant follow-up hovers.",
-    installation:
-      "bunx shadcn@latest add tooltip --registry https://craftui.dev/r/radix",
+    installation: {
+      base: "bunx shadcn@latest add tooltip --registry https://craftui.dev/r/base",
+      radix: "bunx shadcn@latest add tooltip --registry https://craftui.dev/r/radix",
+    },
     api: [
       {
         name: "content",
@@ -170,8 +172,10 @@ export const componentDocs: ComponentDoc[] = [
     summary: "Anchored floating content for compact workflows.",
     description:
       "Popovers provide richer inline interactions than tooltips. CraftUI popovers will focus on stable positioning and predictable dismissal behavior.",
-    installation:
-      "bunx shadcn@latest add popover --registry https://craftui.dev/r/radix",
+    installation: {
+      base: "bunx shadcn@latest add popover --registry https://craftui.dev/r/base",
+      radix: "bunx shadcn@latest add popover --registry https://craftui.dev/r/radix",
+    },
     api: [
       {
         name: "open",
@@ -206,8 +210,10 @@ export const componentDocs: ComponentDoc[] = [
     summary: "Binary control for immediate on/off settings.",
     description:
       "Switches are best for instantly applied preferences. CraftUI switch behavior is designed to be predictable in forms and settings panels.",
-    installation:
-      "bunx shadcn@latest add switch --registry https://craftui.dev/r/radix",
+    installation: {
+      base: "bunx shadcn@latest add switch --registry https://craftui.dev/r/base",
+      radix: "bunx shadcn@latest add switch --registry https://craftui.dev/r/radix",
+    },
     api: [
       {
         name: "checked",

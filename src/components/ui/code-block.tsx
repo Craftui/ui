@@ -5,9 +5,10 @@ import { cn } from "@/lib/utils"
 import { useCodeBlock } from "@/components/ui/use-code-block"
 
 export type CodeBlockProps = {
-  code: string
+  code?: string
   language?: string
   filename?: string
+  tabs?: CodeBlockTab[]
   wrap?: boolean
   showLineNumbers?: boolean
   collapsible?: boolean
@@ -16,10 +17,21 @@ export type CodeBlockProps = {
   className?: string
 }
 
+export type CodeBlockTab = {
+  id: string
+  label: string
+  code: string
+  language?: string
+  filename?: string
+}
+
 type CodeBlockContextValue = {
   code: string
   language: string
   filename?: string
+  tabs: CodeBlockTab[]
+  activeTabId?: string
+  setActiveTabId: React.Dispatch<React.SetStateAction<string | undefined>>
   wrap: boolean
   showLineNumbers: boolean
   copyButtonMode: "text" | "icon"
@@ -48,6 +60,7 @@ function CodeBlockRoot({
   code,
   language = "text",
   filename,
+  tabs = [],
   wrap = false,
   showLineNumbers = true,
   collapsible = true,
@@ -56,13 +69,40 @@ function CodeBlockRoot({
   className,
   children,
 }: CodeBlockRootProps) {
-  const block = useCodeBlock({ code, collapsible, maxCollapsedLines })
+  const [activeTabId, setActiveTabId] = React.useState<string | undefined>(
+    tabs[0]?.id
+  )
+  const activeTab = React.useMemo(
+    () => tabs.find((tab) => tab.id === activeTabId) ?? tabs[0],
+    [activeTabId, tabs]
+  )
+
+  React.useEffect(() => {
+    if (!tabs.length) {
+      setActiveTabId(undefined)
+      return
+    }
+
+    const exists = tabs.some((tab) => tab.id === activeTabId)
+    if (!exists) {
+      setActiveTabId(tabs[0].id)
+    }
+  }, [activeTabId, tabs])
+
+  const resolvedCode = activeTab?.code ?? code ?? ""
+  const resolvedLanguage = activeTab?.language ?? language
+  const resolvedFilename = activeTab?.filename ?? filename
+
+  const block = useCodeBlock({ code: resolvedCode, collapsible, maxCollapsedLines })
 
   const value = React.useMemo<CodeBlockContextValue>(
     () => ({
-      code,
-      language,
-      filename,
+      code: resolvedCode,
+      language: resolvedLanguage,
+      filename: resolvedFilename,
+      tabs,
+      activeTabId,
+      setActiveTabId,
       wrap,
       showLineNumbers,
       copyButtonMode,
@@ -78,9 +118,11 @@ function CodeBlockRoot({
       block.setExpanded,
       block.shouldCollapse,
       block.visibleLines,
-      code,
-      filename,
-      language,
+      resolvedCode,
+      resolvedFilename,
+      resolvedLanguage,
+      tabs,
+      activeTabId,
       showLineNumbers,
       copyButtonMode,
       wrap,
@@ -106,7 +148,8 @@ type CodeBlockHeaderProps = {
 }
 
 function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
-  const { filename, language } = useCodeBlockContext()
+  const { filename, language, tabs, activeTabId, setActiveTabId } =
+    useCodeBlockContext()
 
   return (
     <div
@@ -116,12 +159,36 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
       )}
     >
       <div className="flex min-w-0 items-center gap-2">
-        {filename ? (
-          <span className="truncate font-mono text-xs text-foreground">{filename}</span>
-        ) : null}
-        <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-          {language}
-        </span>
+        {tabs.length ? (
+          <div className="flex items-center gap-1">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTabId(tab.id)}
+                className={cn(
+                  "rounded-md px-2 py-1 text-[11px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground",
+                  activeTabId === tab.id &&
+                    "border border-border/80 bg-card text-foreground"
+                )}
+                aria-pressed={activeTabId === tab.id}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <>
+            {filename ? (
+              <span className="truncate font-mono text-xs text-foreground">
+                {filename}
+              </span>
+            ) : null}
+            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+              {language}
+            </span>
+          </>
+        )}
       </div>
 
       <div className="flex items-center gap-1.5">

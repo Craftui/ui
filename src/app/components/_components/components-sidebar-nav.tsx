@@ -27,7 +27,7 @@ function ComponentsSidebarNavImpl() {
     : pathname.replace("/components/", "")
 
   return (
-    <div className="sticky top-6 space-y-6">
+    <div className="sticky top-[6.25rem] space-y-6 [transform:translateZ(0)]">
       <nav className="space-y-4" aria-label="Component navigation">
         <details open>
           <summary className="cursor-pointer select-none py-1 text-sm font-medium">

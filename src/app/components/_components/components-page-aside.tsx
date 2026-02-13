@@ -10,7 +10,7 @@ function ComponentsPageAsideImpl() {
   const isComponentsIndex = pathname === "/components"
 
   return (
-    <div className="sticky top-6">
+    <div className="sticky top-[6.25rem] [transform:translateZ(0)]">
       <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">
         On this page
       </p>
