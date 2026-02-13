@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "registry:build:base": "shadcn build --output ./public/r/base ./registry.base.json",
-    "registry:build:radix": "shadcn build --output ./public/r/radix ./registry.radix.json",
+    "registry:build:base": "bunx shadcn@latest build --output ./public/r/base ./registry.base.json",
+    "registry:build:radix": "bunx shadcn@latest build --output ./public/r/radix ./registry.radix.json",
     "registry:build": "npm run registry:build:base && npm run registry:build:radix"
   },
   "dependencies": {
