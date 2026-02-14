@@ -252,7 +252,7 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         {indicatorStyle ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 top-0 z-0 overflow-hidden rounded-[200px] transition-[transform,width,height] duration-250 ease-out"
+            className="pointer-events-none absolute left-0 top-0 z-0 overflow-hidden rounded-[inherit] transition-[transform,width,height] duration-250 ease-out"
             style={indicatorStyle}
           >
             <svg width="100%" height="100%" viewBox="0 0 120 100" preserveAspectRatio="none">
