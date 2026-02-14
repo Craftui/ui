@@ -381,45 +381,89 @@ export function ComponentDocContent({
         <InstallationCommandBlock installation={component.installation} mode={activeMode} />
       </section>
 
-      {component.sections.map((section) => {
-        const blocks = parseMarkdownBlocks(section.markdown)
-        const renderMatchCaseExample =
-          component.slug === "match-case" && isMatchCaseExampleSection(section.id)
+      {component.slug === "match-case" && component.sections.length > 0 ? (
+        <section id="examples" className="space-y-5 scroll-mt-20">
+          <h3 className="font-display text-2xl">Examples</h3>
+          <div className="space-y-8">
+            {component.sections.map((section) => {
+              const blocks = parseMarkdownBlocks(section.markdown)
+              const renderMatchCaseExample = isMatchCaseExampleSection(section.id)
 
-        return (
-          <section key={section.id} id={section.id} className="space-y-3 scroll-mt-20">
-            <h3 className="font-display text-2xl">{section.title}</h3>
-            <div className="space-y-3">
-              {blocks.map((block, index) => {
-                if (block.kind === "list") {
+              return (
+                <section
+                  key={section.id}
+                  id={section.id}
+                  className="space-y-3 scroll-mt-20 border-t border-border/60 pt-6 first:border-t-0 first:pt-0"
+                >
+                  <h4 className="font-display text-xl">{section.title}</h4>
+                  <div className="space-y-3">
+                    {blocks.map((block, index) => {
+                      if (block.kind === "list") {
+                        return (
+                          <ul
+                            key={`${section.id}-list-${index}`}
+                            className="list-disc space-y-2 pl-5 text-sm text-muted-foreground"
+                          >
+                            {block.items.map((item) => (
+                              <li key={item}>{item}</li>
+                            ))}
+                          </ul>
+                        )
+                      }
+
+                      return (
+                        <p
+                          key={`${section.id}-paragraph-${index}`}
+                          className="text-sm text-muted-foreground"
+                        >
+                          {block.text}
+                        </p>
+                      )
+                    })}
+                    {renderMatchCaseExample ? (
+                      <MatchCaseExamplePreview sectionId={section.id} />
+                    ) : null}
+                  </div>
+                </section>
+              )
+            })}
+          </div>
+        </section>
+      ) : (
+        component.sections.map((section) => {
+          const blocks = parseMarkdownBlocks(section.markdown)
+          return (
+            <section key={section.id} id={section.id} className="space-y-3 scroll-mt-20">
+              <h3 className="font-display text-2xl">{section.title}</h3>
+              <div className="space-y-3">
+                {blocks.map((block, index) => {
+                  if (block.kind === "list") {
+                    return (
+                      <ul
+                        key={`${section.id}-list-${index}`}
+                        className="list-disc space-y-2 pl-5 text-sm text-muted-foreground"
+                      >
+                        {block.items.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    )
+                  }
+
                   return (
-                    <ul
-                      key={`${section.id}-list-${index}`}
-                      className="list-disc space-y-2 pl-5 text-sm text-muted-foreground"
+                    <p
+                      key={`${section.id}-paragraph-${index}`}
+                      className="text-sm text-muted-foreground"
                     >
-                      {block.items.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
+                      {block.text}
+                    </p>
                   )
-                }
-
-                return (
-                  <p
-                    key={`${section.id}-paragraph-${index}`}
-                    className="text-sm text-muted-foreground"
-                  >
-                    {block.text}
-                  </p>
-                )
-              })}
-              {renderMatchCaseExample ? (
-                <MatchCaseExamplePreview sectionId={section.id} />
-              ) : null}
-            </div>
-          </section>
-        )
-      })}
+                })}
+              </div>
+            </section>
+          )
+        })
+      )}
 
       <section id="api" className="space-y-3 scroll-mt-20">
         <h3 className="font-display text-2xl">API reference</h3>

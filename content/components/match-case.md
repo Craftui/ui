@@ -66,20 +66,11 @@
 ## Render keyed icon swapping
 Showcases `render(match, node)` for swapping compact icon states without changing container structure.
 
-## Multi state transitions with value
-Showcases using one `value` source to drive multiple UI states with consistent transitions.
-
 ## Loading to content handoff
 Showcases smooth handoff between loading and loaded branches using `value` plus transition timing.
 
-## Outcome branching with one state source
-Showcases mapping async outcomes to dedicated rendered branches from a single `value`.
-
 ## Step flow transitions in one container
 Showcases step-based flows where each step is a matched branch rendered in a shared container.
-
-## Density mode switching without layout churn
-Showcases preserving outer layout while switching inner density views through matched cases.
 
 ## Nested panel navigation states
 Showcases using path-like keys to render nested command panels with animated state changes.
@@ -89,9 +80,6 @@ Showcases responsive mode changes by matching device keys to dedicated rendered 
 
 ## Write preview diff pane switching
 Showcases toggling editor panes with minimal visual disruption using matched branch rendering.
-
-## Scope based settings surfaces
-Showcases key-based scope switching for account, team, and project content areas.
 
 ## Priority based toast presentation
 Showcases semantic priority switching where icon, tone, and copy update from a shared state key.
