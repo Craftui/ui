@@ -63,38 +63,38 @@
   ]
 }
 ---
-## Icon Switch
-Swap semantic icon states in compact controls and status badges.
+## Render keyed icon swapping
+Showcases `render(match, node)` for swapping compact icon states without changing container structure.
 
-## Status Modes
-Transition between idle, syncing, warning, and offline states.
+## Multi state transitions with value
+Showcases using one `value` source to drive multiple UI states with consistent transitions.
 
-## Loading Flow
-Move from skeleton to content without abrupt replacement.
+## Loading to content handoff
+Showcases smooth handoff between loading and loaded branches using `value` plus transition timing.
 
-## Empty, Success, Error
-Drive common async outcomes from one state source.
+## Outcome branching with one state source
+Showcases mapping async outcomes to dedicated rendered branches from a single `value`.
 
-## Auth Steps
-Switch login, OTP, and confirmation stages in one panel.
+## Step flow transitions in one container
+Showcases step-based flows where each step is a matched branch rendered in a shared container.
 
-## Dashboard Density
-Change card density presets without rerendering whole dashboards.
+## Density mode switching without layout churn
+Showcases preserving outer layout while switching inner density views through matched cases.
 
-## Command Palette Panels
-Switch between root results and nested command groups.
+## Nested panel navigation states
+Showcases using path-like keys to render nested command panels with animated state changes.
 
-## Device Preview Modes
-Toggle desktop, tablet, and mobile previews in a single viewport.
+## Responsive viewport mode switching
+Showcases responsive mode changes by matching device keys to dedicated rendered views.
 
-## Editor Panels
-Swap editor panes such as write, preview, and diff.
+## Write preview diff pane switching
+Showcases toggling editor panes with minimal visual disruption using matched branch rendering.
 
-## Settings Scope
-Switch account, team, and project settings content in one shell.
+## Scope based settings surfaces
+Showcases key-based scope switching for account, team, and project content areas.
 
-## Toast Priority Presentation
-Present info, success, warning, and critical variants in-place.
+## Priority based toast presentation
+Showcases semantic priority switching where icon, tone, and copy update from a shared state key.
 
-## Inspector Side Panel
-Switch properties, tokens, and events panels in design tooling.
+## Inspector tab transitions with stable shell
+Showcases keeping surrounding inspector chrome stable while internal tab content transitions.

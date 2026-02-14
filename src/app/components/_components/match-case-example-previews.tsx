@@ -44,7 +44,7 @@ type MatchCaseExampleConfig = {
 
 const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
   {
-    sectionId: "icon-switch",
+    sectionId: "render-keyed-icon-swapping",
     animation: "blur",
     duration: 240,
     states: [
@@ -72,7 +72,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "status-modes",
+    sectionId: "multi-state-transitions-with-value",
     animation: "fade-up",
     duration: 220,
     states: [
@@ -107,7 +107,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "loading-flow",
+    sectionId: "loading-to-content-handoff",
     animation: "fade",
     duration: 200,
     states: [
@@ -128,7 +128,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "empty-success-error",
+    sectionId: "outcome-branching-with-one-state-source",
     animation: "fade-up",
     duration: 240,
     states: [
@@ -156,7 +156,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "auth-steps",
+    sectionId: "step-flow-transitions-in-one-container",
     animation: "scale",
     duration: 220,
     states: [
@@ -184,7 +184,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "dashboard-density",
+    sectionId: "density-mode-switching-without-layout-churn",
     animation: "blur-up",
     duration: 220,
     states: [
@@ -212,7 +212,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "command-palette-panels",
+    sectionId: "nested-panel-navigation-states",
     animation: "fade-down",
     duration: 210,
     states: [
@@ -240,7 +240,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "device-preview-modes",
+    sectionId: "responsive-viewport-mode-switching",
     animation: "scale",
     duration: 220,
     states: [
@@ -268,7 +268,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "editor-panels",
+    sectionId: "write-preview-diff-pane-switching",
     animation: "fade",
     duration: 200,
     states: [
@@ -296,7 +296,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "settings-scope",
+    sectionId: "scope-based-settings-surfaces",
     animation: "fade-up",
     duration: 220,
     states: [
@@ -324,7 +324,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "toast-priority-presentation",
+    sectionId: "priority-based-toast-presentation",
     animation: "fade-down",
     duration: 190,
     states: [
@@ -359,7 +359,7 @@ const MATCH_CASE_EXAMPLES: MatchCaseExampleConfig[] = [
     ],
   },
   {
-    sectionId: "inspector-side-panel",
+    sectionId: "inspector-tab-transitions-with-stable-shell",
     animation: "blur",
     duration: 220,
     states: [
