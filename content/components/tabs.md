@@ -54,10 +54,6 @@
 ## Examples
 Explore implementation patterns for common Tabs workflows.
 
-## Feature: Controlled state with external sync
-- Wire `value` and `onValueChange` to external state.
-- Keep related UI (status text, analytics hooks) in sync with active tab.
-
 ## Feature: Animated tab panels with Match Case
 - Use `MatchCase` to animate panel handoffs while keeping Tabs triggers accessible.
 - Apply one animation primitive across multiple tab states for consistent motion.

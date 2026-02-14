@@ -7,35 +7,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 
 type TabsExampleId =
-  | "feature-controlled-state-with-external-sync"
   | "feature-animated-tab-panels-with-match-case"
   | "feature-vertical-orientation-for-dense-layouts"
 
 const TABS_EXAMPLE_IDS = new Set<TabsExampleId>([
-  "feature-controlled-state-with-external-sync",
   "feature-animated-tab-panels-with-match-case",
   "feature-vertical-orientation-for-dense-layouts",
 ])
-
-function ControlledStatePreview() {
-  const [value, setValue] = React.useState("profile")
-
-  return (
-    <div className="w-full max-w-2xl space-y-3">
-      <p className="text-xs text-muted-foreground">Selected tab: {value}</p>
-      <Tabs value={value} onValueChange={setValue}>
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="team">Team</TabsTrigger>
-          <TabsTrigger value="billing">Billing</TabsTrigger>
-        </TabsList>
-        <TabsContent value="profile">Manage personal details and avatar.</TabsContent>
-        <TabsContent value="team">Invite collaborators and set roles.</TabsContent>
-        <TabsContent value="billing">Update card and invoice settings.</TabsContent>
-      </Tabs>
-    </div>
-  )
-}
 
 function MatchCaseTabsPreview() {
   const [value, setValue] = React.useState("overview")
@@ -100,9 +78,6 @@ function VerticalTabsPreview() {
 }
 
 function renderExample(sectionId: TabsExampleId) {
-  if (sectionId === "feature-controlled-state-with-external-sync") {
-    return <ControlledStatePreview />
-  }
   if (sectionId === "feature-animated-tab-panels-with-match-case") {
     return <MatchCaseTabsPreview />
   }
@@ -110,19 +85,6 @@ function renderExample(sectionId: TabsExampleId) {
 }
 
 function exampleCode(sectionId: TabsExampleId): string {
-  if (sectionId === "feature-controlled-state-with-external-sync") {
-    return `const [value, setValue] = React.useState("profile")
-
-<Tabs value={value} onValueChange={setValue}>
-  <TabsList className="grid w-full grid-cols-3">
-    <TabsTrigger value="profile">Profile</TabsTrigger>
-    <TabsTrigger value="team">Team</TabsTrigger>
-    <TabsTrigger value="billing">Billing</TabsTrigger>
-  </TabsList>
-  <TabsContent value="profile">Manage personal details and avatar.</TabsContent>
-</Tabs>`
-  }
-
   if (sectionId === "feature-animated-tab-panels-with-match-case") {
     return `const [value, setValue] = React.useState("overview")
 
@@ -176,4 +138,3 @@ export function TabsExamplePreview({ sectionId }: { sectionId: string }) {
     />
   )
 }
-
