@@ -6,18 +6,14 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { publishedComponentDocs } from "@/app/components/_lib/docs"
 
-const groups = [
-  {
-    name: "Foundations",
-    items: publishedComponentDocs.filter(
-      (item) => item.category === "Foundations"
-    ),
-  },
-  {
-    name: "Overlays",
-    items: publishedComponentDocs.filter((item) => item.category === "Overlays"),
-  },
-].filter((group) => group.items.length > 0)
+const groupOrder = ["Foundations", "Utility", "Overlays"] as const
+
+const groups = groupOrder
+  .map((name) => ({
+    name,
+    items: publishedComponentDocs.filter((item) => item.category === name),
+  }))
+  .filter((group) => group.items.length > 0)
 
 function ComponentsSidebarNavImpl() {
   const pathname = usePathname()

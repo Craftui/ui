@@ -155,16 +155,16 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
   return (
     <div
       className={cn(
-        "flex flex-wrap items-center justify-between gap-2 border-b border-border/70 bg-background/80 px-3 py-2",
+        "flex flex-wrap items-center justify-between gap-2 border-b border-border/70 bg-background/80 px-0 py-0",
         className
       )}
     >
-      <div className="flex min-w-0 items-center gap-2">
+      <div className="flex min-w-0 items-center gap-0">
         {tabs.length ? (
           <div
             role="tablist"
             aria-label="Code variants"
-            className="flex min-w-0 items-end gap-1"
+            className="flex min-w-0 items-stretch"
           >
             {tabs.map((tab) => (
               <Button
@@ -176,8 +176,9 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
                 variant="ghost"
                 size="sm"
                 className={cn(
-                  "h-7 rounded-none border-b-2 border-transparent px-1.5 font-mono text-[11px] lowercase tracking-normal text-muted-foreground hover:bg-transparent hover:text-foreground",
-                  activeTabId === tab.id && "border-foreground text-foreground"
+                  "h-7 rounded-none border-r border-border/70 border-b border-b-transparent px-2 py-0 font-mono text-[11px] lowercase tracking-normal text-muted-foreground hover:bg-transparent hover:text-foreground",
+                  activeTabId === tab.id &&
+                    "border-b-card bg-card text-foreground"
                 )}
               >
                 {tab.label}
@@ -185,7 +186,7 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
             ))}
           </div>
         ) : (
-          <>
+          <div className="px-3 py-2">
             {filename ? (
               <span className="truncate font-mono text-xs text-foreground">
                 {filename}
@@ -194,13 +195,10 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
             <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
               {language}
             </span>
-          </>
+          </div>
         )}
       </div>
 
-      <div className="flex items-center gap-1.5">
-        <CodeBlockCopyButton />
-      </div>
     </div>
   )
 }
@@ -364,6 +362,7 @@ function CodeBlockBody({ className }: CodeBlockBodyProps) {
 
   return (
     <div className={cn("relative overflow-x-auto", wrap && "overflow-x-hidden", className)}>
+      <CodeBlockCopyButton className="absolute top-2 right-2 z-10" />
       <div className="p-4 font-mono text-[13px] leading-6 text-foreground">{renderedLines}</div>
 
       {isLargeExpansion && expandedRenderCount < visibleLines.length ? (

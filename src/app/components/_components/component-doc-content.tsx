@@ -5,8 +5,11 @@ import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { CodeBlock } from "@/components/ui/code-block"
+import { MatchCase } from "@/components/ui/match-case"
+import { Bell, Cloud, Flame } from "lucide-react"
 import { InstallationCommandBlock } from "@/app/components/_components/installation-command-block"
 import {
+  matchCaseExampleDocs,
   resolveComponentDocContent,
   type ComponentDoc,
   type DocMode,
@@ -97,6 +100,14 @@ function renderComponentDemo(doc: ComponentDoc, mode: DocMode) {
     )
   }
 
+  if (doc.slug === "match-case") {
+    return (
+      <p className="max-w-xl text-center text-sm text-muted-foreground">
+        Match Case demo is interactive on its component page.
+      </p>
+    )
+  }
+
   return (
     <label className="inline-flex items-center gap-3 text-sm">
       <input type="checkbox" className="h-4 w-4 accent-current" />
@@ -128,6 +139,9 @@ export function ComponentDocContent({
     [component, activeMode]
   )
   const backHref = activeMode === "radix" ? "/components?mode=radix" : "/components"
+  const [matchCaseView, setMatchCaseView] = React.useState<
+    "overview" | "api" | "preview"
+  >("overview")
 
   const setMode = React.useCallback(
     (mode: DocMode) => {
@@ -151,14 +165,14 @@ export function ComponentDocContent({
 
   return (
     <article className="mx-auto w-full max-w-4xl space-y-10">
-      <header className="border-b border-border/80 pb-3">
+      <header className="pb-1">
         <h2 className="font-display text-4xl tracking-tight">{component.name}</h2>
         <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
           {resolved.summary}
         </p>
 
         <div className="mt-5 border-b border-border/70">
-          <div role="tablist" aria-label="Implementation mode" className="flex gap-1.5">
+          <div role="tablist" aria-label="Implementation mode" className="flex items-stretch">
             {[
               { id: "base", label: "Base" },
               { id: "radix", label: "Radix" },
@@ -175,8 +189,8 @@ export function ComponentDocContent({
                   size="sm"
                   onClick={() => setMode(mode.id as DocMode)}
                   className={cn(
-                    "h-8 rounded-none border-b-2 border-transparent px-2 text-xs font-medium text-muted-foreground hover:bg-transparent hover:text-foreground",
-                    selected && "border-foreground text-foreground"
+                    "h-7 rounded-none border-r border-border/70 border-b border-b-transparent px-2 py-0 text-xs font-medium text-muted-foreground hover:bg-transparent hover:text-foreground",
+                    selected && "border-b-card bg-card text-foreground"
                   )}
                 >
                   {mode.label}
@@ -199,7 +213,68 @@ export function ComponentDocContent({
 
       <section id="demo" className="scroll-mt-20">
         <div className="flex min-h-56 w-full items-center justify-center rounded-2xl border border-border/80 bg-accent/55 p-8 md:min-h-64 md:p-10">
-          {renderComponentDemo(component, activeMode)}
+          {component.slug === "match-case" ? (
+            <div className="flex w-full max-w-2xl flex-col gap-4">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  {[
+                    { id: "overview", label: "Notify", icon: Bell },
+                    { id: "api", label: "Weather", icon: Cloud },
+                    { id: "preview", label: "Energy", icon: Flame },
+                  ].map((item) => {
+                    const selected = matchCaseView === item.id
+                    const ItemIcon = item.icon
+                    return (
+                      <Button
+                        key={item.id}
+                        type="button"
+                        size="sm"
+                        variant={selected ? "default" : "outline"}
+                        onClick={() => setMatchCaseView(item.id as typeof matchCaseView)}
+                        className="h-8 w-8 p-0"
+                        aria-label={item.label}
+                      >
+                        <ItemIcon className="size-4" aria-hidden="true" />
+                      </Button>
+                    )
+                  })}
+                </div> 
+              </div>
+
+              <MatchCase value={matchCaseView} animation="blur" duration={260}>
+                {({ containerProps, render }) => (
+                  <div
+                    {...containerProps}
+                    className={cn(
+                      containerProps.className,
+                      "min-h-36 overflow-hidden rounded-xl border border-border/80 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--background)_92%,var(--accent)_8%)_0%,var(--background)_100%)] p-5"
+                    )}
+                  >
+                    {render(
+                      "overview",
+                      <div className="flex min-h-24 flex-col items-center justify-center gap-3 text-center">
+                        <Bell className="size-10 text-foreground/85" aria-hidden="true" />
+                      </div>
+                    )}
+                    {render(
+                      "api",
+                      <div className="flex min-h-24 flex-col items-center justify-center gap-3 text-center">
+                        <Cloud className="size-10 text-foreground/85" aria-hidden="true" />
+                      </div>
+                    )}
+                    {render(
+                      "preview",
+                      <div className="flex min-h-24 flex-col items-center justify-center gap-3 text-center">
+                        <Flame className="size-10 text-foreground/85" aria-hidden="true" />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </MatchCase>
+            </div>
+          ) : (
+            renderComponentDemo(component, activeMode)
+          )}
         </div>
       </section>
 
@@ -210,6 +285,26 @@ export function ComponentDocContent({
         </p>
         <InstallationCommandBlock installation={component.installation} mode={activeMode} />
       </section>
+
+      {component.slug === "match-case" ? (
+        <>
+          {matchCaseExampleDocs.map((example) => (
+            <section
+              key={example.id}
+              id={example.id}
+              className="space-y-3 scroll-mt-20"
+            >
+              <h3 className="font-display text-2xl">{example.title}</h3>
+              <p className="text-sm text-muted-foreground">{example.context}</p>
+              <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
+                {example.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </>
+      ) : null}
 
       <section id="api" className="space-y-3 scroll-mt-20">
         <h3 className="font-display text-2xl">API reference</h3>
@@ -233,7 +328,11 @@ export function ComponentDocContent({
               {resolved.api.map((prop) => (
                 <tr key={prop.name} className="border-b border-border/70">
                   <td className="px-3 py-3 font-mono text-xs">{prop.name}</td>
-                  <td className="px-3 py-3 font-mono text-xs">{prop.type}</td>
+                  <td className="px-3 py-3">
+                    <code className="inline-block rounded-md border border-border/80 bg-muted/60 px-2 py-1 font-mono text-[11px] leading-5 text-foreground">
+                      {prop.type}
+                    </code>
+                  </td>
                   <td className="px-3 py-3 font-mono text-xs">{prop.defaultValue}</td>
                   <td className="px-3 py-3 text-sm text-muted-foreground">
                     {prop.description}
