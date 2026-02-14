@@ -11,6 +11,8 @@ export type CodeBlockProps = {
   language?: string
   filename?: string
   tabs?: CodeBlockTab[]
+  detectLanguage?: boolean
+  languageAliases?: Record<string, string>
   wrap?: boolean
   showLineNumbers?: boolean
   collapsible?: boolean
@@ -30,6 +32,7 @@ export type CodeBlockTab = {
 type CodeBlockContextValue = {
   code: string
   language: string
+  resolvedLanguageLabel: string
   filename?: string
   tabs: CodeBlockTab[]
   activeTabId?: string
@@ -51,17 +54,167 @@ const LANGUAGE_ALIASES: Record<string, string> = {
   tsx: "typescript",
   js: "javascript",
   jsx: "javascript",
+  cjs: "javascript",
+  mjs: "javascript",
   sh: "bash",
   shell: "bash",
   zsh: "bash",
+  fish: "bash",
   yml: "yaml",
+  py: "python",
+  rb: "ruby",
+  rs: "rust",
+  csharp: "csharp",
+  cs: "csharp",
+  cplusplus: "cpp",
+  hpp: "cpp",
+  h: "c",
+  kt: "kotlin",
+  kts: "kotlin",
+  swiftui: "swift",
+  golang: "go",
+  docker: "dockerfile",
+  env: "dotenv",
+  tf: "hcl",
+  tfvars: "hcl",
+  conf: "ini",
+  toml: "toml",
+  plist: "xml",
+  svg: "xml",
+  vue: "xml",
+  svelte: "xml",
   md: "markdown",
   html: "xml",
 }
 
-function normalizeLanguage(language: string) {
+const FILENAME_EXTENSION_PATTERN = /\.([a-z0-9]+)$/i
+const SHELL_LANGUAGES = new Set(["bash", "shell", "zsh", "sh", "fish"])
+
+function escapeHtml(value: string): string {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;")
+}
+
+function highlightShellCommandFallback(code: string): string {
+  return code
+    .split("\n")
+    .map((line) => {
+      const trimmed = line.trim()
+      if (!trimmed) {
+        return ""
+      }
+
+      const tokens = line.split(/(\s+)/)
+      let commandHighlighted = false
+
+      return tokens
+        .map((token) => {
+          if (/^\s+$/.test(token)) {
+            return token
+          }
+
+          const escaped = escapeHtml(token)
+
+          if (!commandHighlighted && !token.startsWith("-")) {
+            commandHighlighted = true
+            return `<span class="hljs-built_in">${escaped}</span>`
+          }
+
+          if (/^--?[a-z0-9][a-z0-9-]*$/i.test(token)) {
+            return `<span class="hljs-attr">${escaped}</span>`
+          }
+
+          if (/^https?:\/\//i.test(token)) {
+            return `<span class="hljs-string">${escaped}</span>`
+          }
+
+          return escaped
+        })
+        .join("")
+    })
+    .join("\n")
+}
+
+function normalizeLanguage(
+  language: string,
+  customAliases?: Record<string, string>
+) {
   const lowered = language.trim().toLowerCase()
-  return LANGUAGE_ALIASES[lowered] ?? lowered
+  return customAliases?.[lowered] ?? LANGUAGE_ALIASES[lowered] ?? lowered
+}
+
+function languageFromFilename(
+  filename?: string,
+  customAliases?: Record<string, string>
+) {
+  if (!filename) {
+    return null
+  }
+  const match = filename.toLowerCase().match(FILENAME_EXTENSION_PATTERN)
+  if (!match?.[1]) {
+    return null
+  }
+  const normalized = normalizeLanguage(match[1], customAliases)
+  return hljs.getLanguage(normalized) ? normalized : null
+}
+
+function resolveLanguageForHighlight({
+  code,
+  language,
+  filename,
+  detectLanguage,
+  languageAliases,
+}: {
+  code: string
+  language?: string
+  filename?: string
+  detectLanguage: boolean
+  languageAliases?: Record<string, string>
+}) {
+  const normalizedLanguage = language
+    ? normalizeLanguage(language, languageAliases)
+    : null
+
+  if (normalizedLanguage && hljs.getLanguage(normalizedLanguage)) {
+    return {
+      language: normalizedLanguage,
+      label: normalizedLanguage,
+    }
+  }
+
+  const inferredFromFilename = languageFromFilename(filename, languageAliases)
+  if (inferredFromFilename) {
+    return {
+      language: inferredFromFilename,
+      label: inferredFromFilename,
+    }
+  }
+
+  if (detectLanguage && code.trim()) {
+    try {
+      const auto = hljs.highlightAuto(code)
+      if (auto.language) {
+        return {
+          language: auto.language,
+          label: auto.language,
+        }
+      }
+    } catch {
+      return {
+        language: "plaintext",
+        label: "plaintext",
+      }
+    }
+  }
+
+  return {
+    language: "plaintext",
+    label: normalizedLanguage ?? "plaintext",
+  }
 }
 
 function highlightSnippet(code: string, language: string) {
@@ -73,10 +226,16 @@ function highlightSnippet(code: string, language: string) {
 
   try {
     if (hljs.getLanguage(normalized)) {
-      return hljs.highlight(code, {
+      const highlighted = hljs.highlight(code, {
         language: normalized,
         ignoreIllegals: true,
       }).value
+
+      if (!highlighted.includes("<span") && SHELL_LANGUAGES.has(normalized)) {
+        return highlightShellCommandFallback(code)
+      }
+
+      return highlighted
     }
     return hljs.highlightAuto(code).value
   } catch {
@@ -98,9 +257,11 @@ type CodeBlockRootProps = CodeBlockProps & {
 
 function CodeBlockRoot({
   code,
-  language = "text",
+  language,
   filename,
   tabs = [],
+  detectLanguage = true,
+  languageAliases,
   wrap = false,
   showLineNumbers = true,
   collapsible = true,
@@ -130,15 +291,33 @@ function CodeBlockRoot({
   }, [activeTabId, tabs])
 
   const resolvedCode = activeTab?.code ?? code ?? ""
-  const resolvedLanguage = activeTab?.language ?? language
+  const resolvedLanguageInput = activeTab?.language ?? language
   const resolvedFilename = activeTab?.filename ?? filename
+  const resolvedLanguage = React.useMemo(
+    () =>
+      resolveLanguageForHighlight({
+        code: resolvedCode,
+        language: resolvedLanguageInput,
+        filename: resolvedFilename,
+        detectLanguage,
+        languageAliases,
+      }),
+    [
+      detectLanguage,
+      languageAliases,
+      resolvedCode,
+      resolvedFilename,
+      resolvedLanguageInput,
+    ]
+  )
 
   const block = useCodeBlock({ code: resolvedCode, collapsible, maxCollapsedLines })
 
   const value = React.useMemo<CodeBlockContextValue>(
     () => ({
       code: resolvedCode,
-      language: resolvedLanguage,
+      language: resolvedLanguage.language,
+      resolvedLanguageLabel: resolvedLanguage.label,
       filename: resolvedFilename,
       tabs,
       activeTabId,
@@ -188,7 +367,7 @@ type CodeBlockHeaderProps = {
 }
 
 function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
-  const { filename, language, tabs, activeTabId, setActiveTabId } =
+  const { filename, resolvedLanguageLabel, tabs, activeTabId, setActiveTabId } =
     useCodeBlockContext()
 
   return (
@@ -200,29 +379,34 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
     >
       <div className="flex min-w-0 items-center gap-0">
         {tabs.length ? (
-          <div
-            role="tablist"
-            aria-label="Code variants"
-            className="flex min-w-0 items-stretch"
-          >
-            {tabs.map((tab) => (
-              <Button
-                key={tab.id}
-                type="button"
-                role="tab"
-                aria-selected={activeTabId === tab.id}
-                onClick={() => setActiveTabId(tab.id)}
-                variant="ghost"
-                size="sm"
-                className={cn(
-                  "h-7 rounded-none border-r border-border/70 border-b border-b-transparent px-2 py-0 font-mono text-[11px] lowercase tracking-normal text-muted-foreground hover:bg-transparent hover:text-foreground",
-                  activeTabId === tab.id &&
-                    "border-b-card bg-card text-foreground"
-                )}
-              >
-                {tab.label}
-              </Button>
-            ))}
+          <div className="flex min-w-0 items-center">
+            <div
+              role="tablist"
+              aria-label="Code variants"
+              className="flex min-w-0 items-stretch"
+            >
+              {tabs.map((tab) => (
+                <Button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTabId === tab.id}
+                  onClick={() => setActiveTabId(tab.id)}
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "h-7 rounded-none border-r border-border/70 border-b border-b-transparent px-2 py-0 font-mono text-[11px] lowercase tracking-normal text-muted-foreground hover:bg-transparent hover:text-foreground",
+                    activeTabId === tab.id &&
+                      "border-b-card bg-card text-foreground"
+                  )}
+                >
+                  {tab.label}
+                </Button>
+              ))}
+            </div>
+            <span className="px-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+              {resolvedLanguageLabel}
+            </span>
           </div>
         ) : (
           <div className="px-3 py-2">
@@ -232,7 +416,7 @@ function CodeBlockHeader({ className }: CodeBlockHeaderProps) {
               </span>
             ) : null}
             <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-              {language}
+              {resolvedLanguageLabel}
             </span>
           </div>
         )}
