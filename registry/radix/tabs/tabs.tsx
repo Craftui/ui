@@ -175,6 +175,23 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
     const listRef = React.useRef<HTMLDivElement | null>(null)
     const [indicatorStyle, setIndicatorStyle] = React.useState<React.CSSProperties>()
 
+    const resolveIndicatorStyle = React.useCallback(
+      (listNode: HTMLDivElement, triggerNode: HTMLButtonElement) => {
+        const listRect = listNode.getBoundingClientRect()
+        const triggerRect = triggerNode.getBoundingClientRect()
+        const extraWidth = 8
+        const x = Math.round(triggerRect.left - listRect.left) - extraWidth / 2
+        const y = Math.max(0, Math.round(triggerRect.top - listRect.top) - 2)
+
+        return {
+          transform: `translate(${x}px, ${y}px)`,
+          width: `${Math.round(triggerRect.width) + extraWidth}px`,
+          height: `${Math.round(triggerRect.height)}px`,
+        } satisfies React.CSSProperties
+      },
+      []
+    )
+
     React.useLayoutEffect(() => {
       const listNode = listRef.current
       if (!listNode || !value) {
@@ -188,15 +205,8 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         return
       }
 
-      const listRect = listNode.getBoundingClientRect()
-      const triggerRect = triggerNode.getBoundingClientRect()
-
-      setIndicatorStyle({
-        transform: `translate(${Math.round(triggerRect.left - listRect.left)}px, ${Math.round(triggerRect.top - listRect.top)}px)`,
-        width: `${Math.round(triggerRect.width)}px`,
-        height: `${Math.round(triggerRect.height)}px`,
-      })
-    }, [getTriggerNode, orientation, value])
+      setIndicatorStyle(resolveIndicatorStyle(listNode, triggerNode))
+    }, [getTriggerNode, orientation, resolveIndicatorStyle, value])
 
     React.useEffect(() => {
       if (typeof ResizeObserver === "undefined") {
@@ -211,20 +221,13 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       }
 
       const observer = new ResizeObserver(() => {
-        const listRect = listNode.getBoundingClientRect()
-        const triggerRect = triggerNode.getBoundingClientRect()
-
-        setIndicatorStyle({
-          transform: `translate(${Math.round(triggerRect.left - listRect.left)}px, ${Math.round(triggerRect.top - listRect.top)}px)`,
-          width: `${Math.round(triggerRect.width)}px`,
-          height: `${Math.round(triggerRect.height)}px`,
-        })
+        setIndicatorStyle(resolveIndicatorStyle(listNode, triggerNode))
       })
 
       observer.observe(listNode)
       observer.observe(triggerNode)
       return () => observer.disconnect()
-    }, [getTriggerNode, orientation, value])
+    }, [getTriggerNode, orientation, resolveIndicatorStyle, value])
 
     return (
       <div
@@ -249,16 +252,16 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         {indicatorStyle ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 top-0 z-0 transition-[transform,width,height] duration-250 ease-out"
+            className="pointer-events-none absolute left-0 top-0 z-0 overflow-hidden rounded-[200px] transition-[transform,width,height] duration-250 ease-out"
             style={indicatorStyle}
           >
-            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <svg width="100%" height="100%" viewBox="0 0 120 100" preserveAspectRatio="none">
               <rect
-                x="1.25"
-                y="1.25"
-                width="97.5"
-                height="97.5"
-                rx="9"
+                x="0"
+                y="0"
+                width="120"
+                height="100"
+                rx="200"
                 fill="var(--card)"
               />
             </svg>
