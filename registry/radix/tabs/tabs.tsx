@@ -261,7 +261,6 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
                 y="0"
                 width="120"
                 height="100"
-                rx="200"
                 fill="var(--card)"
               />
             </svg>
