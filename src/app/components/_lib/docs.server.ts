@@ -95,16 +95,21 @@ function parseComponentDocFile(filepath: string): ComponentDoc {
   }
 }
 
-const getComponentDocsCached = cache((): ComponentDoc[] => {
+function readComponentDocs(): ComponentDoc[] {
   const entries = fs
     .readdirSync(COMPONENT_DOCS_DIR, { withFileTypes: true })
     .filter((entry) => entry.isFile() && entry.name.endsWith(".md"))
     .map((entry) => parseComponentDocFile(path.join(COMPONENT_DOCS_DIR, entry.name)))
 
   return entries.sort((a, b) => a.order - b.order || a.name.localeCompare(b.name))
-})
+}
+
+const getComponentDocsCached = cache(readComponentDocs)
 
 export function getComponentDocs(): ComponentDoc[] {
+  if (process.env.NODE_ENV !== "production") {
+    return readComponentDocs()
+  }
   return getComponentDocsCached()
 }
 
