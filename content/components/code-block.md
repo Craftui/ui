@@ -32,6 +32,24 @@
       "description": "Optional file label rendered in the header."
     },
     {
+      "name": "language",
+      "type": "string",
+      "defaultValue": "undefined",
+      "description": "Optional explicit language. If omitted, Code Block infers from filename or auto-detects."
+    },
+    {
+      "name": "detectLanguage",
+      "type": "boolean",
+      "defaultValue": "true",
+      "description": "Automatically detect syntax when language is not provided."
+    },
+    {
+      "name": "languageAliases",
+      "type": "Record<string, string>",
+      "defaultValue": "undefined",
+      "description": "Optional alias map to support project-specific language shorthands."
+    },
+    {
       "name": "showLineNumbers",
       "type": "boolean",
       "defaultValue": "true",
