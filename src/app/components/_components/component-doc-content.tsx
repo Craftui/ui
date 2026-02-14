@@ -10,6 +10,10 @@ import { Preview } from "@/components/ui/preview"
 import { Bell, Cloud, Flame } from "lucide-react"
 import { InstallationCommandBlock } from "@/app/components/_components/installation-command-block"
 import {
+  isMatchCaseExampleSection,
+  MatchCaseExamplePreview,
+} from "@/app/components/_components/match-case-example-previews"
+import {
   resolveComponentDocContent,
   type ComponentDoc,
   type DocMode,
@@ -379,6 +383,8 @@ export function ComponentDocContent({
 
       {component.sections.map((section) => {
         const blocks = parseMarkdownBlocks(section.markdown)
+        const renderMatchCaseExample =
+          component.slug === "match-case" && isMatchCaseExampleSection(section.id)
 
         return (
           <section key={section.id} id={section.id} className="space-y-3 scroll-mt-20">
@@ -407,6 +413,9 @@ export function ComponentDocContent({
                   </p>
                 )
               })}
+              {renderMatchCaseExample ? (
+                <MatchCaseExamplePreview sectionId={section.id} />
+              ) : null}
             </div>
           </section>
         )
