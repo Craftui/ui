@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { getPublishedComponentDocs } from "@/app/components/_lib/docs.server"
+import { getComponentDocs } from "@/app/components/_lib/docs.server"
 
 interface ComponentsHomePageProps {
   searchParams?: Promise<{ mode?: string }>
@@ -10,7 +10,7 @@ export const dynamic = "force-static"
 export default async function ComponentsHomePage({
   searchParams,
 }: ComponentsHomePageProps) {
-  const docs = getPublishedComponentDocs()
+  const docs = getComponentDocs()
   const resolvedSearchParams = searchParams ? await searchParams : undefined
   const modeQuery = resolvedSearchParams?.mode === "radix" ? "?mode=radix" : ""
 
@@ -35,6 +35,9 @@ export default async function ComponentsHomePage({
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="font-medium">{item.name}</span>
+                <span className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  {item.status}
+                </span>
               </div>
               <p className="mt-2 text-xs text-muted-foreground">{item.summary}</p>
             </Link>

@@ -1,8 +1,8 @@
 import { notFound, redirect } from "next/navigation"
 import { ComponentDocContent } from "@/app/components/_components/component-doc-content"
 import {
+  getComponentDocs,
   getComponentDoc,
-  getPublishedComponentDocs,
   type DocMode,
 } from "@/app/components/_lib/docs.server"
 
@@ -14,7 +14,7 @@ interface ComponentPageProps {
 }
 
 export async function generateStaticParams() {
-  return getPublishedComponentDocs().map((component) => ({
+  return getComponentDocs().map((component) => ({
     slug: component.slug,
   }))
 }
@@ -32,7 +32,7 @@ export default async function ComponentPage({
 
   if (!doc) {
     if (normalizedSlug === "components") {
-      const firstComponent = getPublishedComponentDocs()[0]
+      const firstComponent = getComponentDocs()[0]
       if (firstComponent) {
         redirect(`/components/${firstComponent.slug}`)
       }

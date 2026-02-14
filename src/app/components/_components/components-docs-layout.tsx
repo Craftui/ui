@@ -1,14 +1,14 @@
 import { ComponentsPageAside } from "@/app/components/_components/components-page-aside"
 import { ComponentsSidebarNav } from "@/app/components/_components/components-sidebar-nav"
 import {
-  getPublishedComponentDocs,
+  getComponentDocs,
   getTocBySlug,
 } from "@/app/components/_lib/docs.server"
 
 export async function ComponentsDocsLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const docs = getPublishedComponentDocs()
+  const docs = getComponentDocs()
   const tocBySlug = getTocBySlug()
 
   return (
