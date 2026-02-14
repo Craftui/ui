@@ -3,7 +3,6 @@ import { buttonVariants } from "@/components/ui/button"
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/components", label: "Components" },
   { href: "/about", label: "About" },
 ]
 
@@ -34,7 +33,11 @@ export function SiteHeader() {
           <div className="flex items-center gap-3">
             <Link
               href="/components"
-              className={buttonVariants({ className: "hidden md:inline-flex" })}
+              className={buttonVariants({
+                size: "sm",
+                className:
+                  "hidden md:inline-flex border-primary bg-primary text-primary-foreground hover:border-primary/90 hover:bg-primary/90",
+              })}
             >
               Explore components
             </Link>
@@ -53,6 +56,16 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <Link
+            href="/components"
+            className={buttonVariants({
+              size: "sm",
+              className:
+                "ml-auto border-primary bg-primary text-primary-foreground hover:border-primary/90 hover:bg-primary/90",
+            })}
+          >
+            Explore components
+          </Link>
         </div>
       </div>
     </header>
