@@ -63,20 +63,38 @@
   ]
 }
 ---
-## Icon switch
+## Icon Switch
 Swap semantic icon states in compact controls and status badges.
-- Use a shared container size so transitions do not affect layout.
-- Apply blur and fade for soft state changes in tight UI surfaces.
-- Keep per-icon labels in surrounding UI for accessibility clarity.
 
-## Status modes
+## Status Modes
 Transition between idle, syncing, warning, and offline states.
-- Map server states to stable keys and let Match Case switch views.
-- Use short transitions for frequent state polling updates.
-- Pair color tokens with icon and copy changes.
 
-## Loading flow
+## Loading Flow
 Move from skeleton to content without abrupt replacement.
-- Render loading and loaded branches as separate matched cases.
-- Fade out placeholders while fading in content to hide pop-in.
-- Use equal min-height for both cases to avoid jumpiness.
+
+## Empty, Success, Error
+Drive common async outcomes from one state source.
+
+## Auth Steps
+Switch login, OTP, and confirmation stages in one panel.
+
+## Dashboard Density
+Change card density presets without rerendering whole dashboards.
+
+## Command Palette Panels
+Switch between root results and nested command groups.
+
+## Device Preview Modes
+Toggle desktop, tablet, and mobile previews in a single viewport.
+
+## Editor Panels
+Swap editor panes such as write, preview, and diff.
+
+## Settings Scope
+Switch account, team, and project settings content in one shell.
+
+## Toast Priority Presentation
+Present info, success, warning, and critical variants in-place.
+
+## Inspector Side Panel
+Switch properties, tokens, and events panels in design tooling.
