@@ -260,7 +260,6 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
                 height="97.5"
                 rx="9"
                 fill="var(--card)"
-                stroke="color-mix(in oklab, var(--border) 78%, transparent)"
               />
             </svg>
           </div>
