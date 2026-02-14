@@ -43,7 +43,7 @@ function ComponentsPageAsideImpl({ docs, tocBySlug }: ComponentsPageAsideProps) 
         </nav>
       ) : (
         <nav className="mt-4" aria-label="Table of contents">
-          {tocItems.map((item) => (
+          {tocItems.map((item, index) => (
             item.type === "link" ? (
               <a
                 key={item.id}
@@ -54,9 +54,22 @@ function ComponentsPageAsideImpl({ docs, tocBySlug }: ComponentsPageAsideProps) 
               </a>
             ) : (
               <div key={item.label} className="pt-1">
-                <p className="py-1 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                  {item.label}
-                </p>
+                {(() => {
+                  const previous = tocItems[index - 1]
+                  const isDuplicateHeading =
+                    previous?.type === "link" &&
+                    previous.label.toLowerCase() === item.label.toLowerCase()
+
+                  if (isDuplicateHeading) {
+                    return null
+                  }
+
+                  return (
+                    <p className="py-1 text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                      {item.label}
+                    </p>
+                  )
+                })()}
                 {item.items.map((subItem) => (
                   <a
                     key={subItem.id}
