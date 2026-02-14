@@ -7,12 +7,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 
 type TabsExampleId =
-  | "feature-animated-tab-panels-with-match-case"
-  | "feature-vertical-orientation-for-dense-layouts"
+  | "animated-tab-panels-with-match-case"
+  | "vertical-orientation-for-dense-layouts"
 
 const TABS_EXAMPLE_IDS = new Set<TabsExampleId>([
-  "feature-animated-tab-panels-with-match-case",
-  "feature-vertical-orientation-for-dense-layouts",
+  "animated-tab-panels-with-match-case",
+  "vertical-orientation-for-dense-layouts",
 ])
 
 function MatchCaseTabsPreview() {
@@ -78,14 +78,14 @@ function VerticalTabsPreview() {
 }
 
 function renderExample(sectionId: TabsExampleId) {
-  if (sectionId === "feature-animated-tab-panels-with-match-case") {
+  if (sectionId === "animated-tab-panels-with-match-case") {
     return <MatchCaseTabsPreview />
   }
   return <VerticalTabsPreview />
 }
 
 function exampleCode(sectionId: TabsExampleId): string {
-  if (sectionId === "feature-animated-tab-panels-with-match-case") {
+  if (sectionId === "animated-tab-panels-with-match-case") {
     return `const [value, setValue] = React.useState("overview")
 
 <Tabs value={value} onValueChange={setValue}>

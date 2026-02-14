@@ -54,10 +54,10 @@
 ## Examples
 Explore implementation patterns for common Tabs workflows.
 
-## Feature: Animated tab panels with Match Case
+## Animated tab panels with Match Case
 - Use `MatchCase` to animate panel handoffs while keeping Tabs triggers accessible.
 - Apply one animation primitive across multiple tab states for consistent motion.
 
-## Feature: Vertical orientation for dense layouts
+## Vertical orientation for dense layouts
 - Use `orientation="vertical"` when navigation labels are longer.
 - Pair with a two-column layout to keep controls and content readable.

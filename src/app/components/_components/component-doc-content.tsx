@@ -407,7 +407,8 @@ export function ComponentDocContent({
         <InstallationCommandBlock installation={component.installation} mode={activeMode} />
       </section>
 
-      {component.slug === "match-case" && component.sections.length > 0 ? (
+      {(component.slug === "match-case" || component.slug === "tabs") &&
+      component.sections.length > 0 ? (
         <section id="examples" className="space-y-5 scroll-mt-20">
           <h3 className="font-display text-2xl">Examples</h3>
           <div className="space-y-8">

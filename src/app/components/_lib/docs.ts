@@ -79,11 +79,11 @@ export function getTocItemsForDoc(doc?: ComponentDoc): TocItem[] {
     label: section.title,
   }))
 
-  if (doc?.slug === "match-case" && contentItems.length > 0) {
+  if ((doc?.slug === "match-case" || doc?.slug === "tabs") && contentItems.length > 0) {
     return [
       ...baseItems,
       { type: "link", id: "examples", label: "Examples" },
-      { type: "group", label: "Example demos", items: contentItems },
+      { type: "group", label: "Examples", items: contentItems },
       { type: "link", id: "api", label: "API reference" },
       { type: "link", id: "accessibility", label: "Accessibility" },
     ]
