@@ -137,12 +137,6 @@ function renderComponentDemo(doc: ComponentDoc, mode: DocMode) {
             code: `bunx ${stripped}`,
           },
           {
-            id: "npm",
-            label: "npm",
-            language: "bash",
-            code: `npx ${stripped}`,
-          },
-          {
             id: "pnpm",
             label: "pnpm",
             language: "bash",
@@ -536,15 +530,6 @@ export function ComponentDocContent({
             </tbody>
           </table>
         </div>
-      </section>
-
-      <section id="accessibility" className="space-y-3 scroll-mt-20">
-        <h3 className="font-display text-2xl">Accessibility</h3>
-        <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-          {resolved.a11y.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
       </section>
 
       <div className="border-t border-border/80 pt-6">

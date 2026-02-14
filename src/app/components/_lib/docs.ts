@@ -89,7 +89,6 @@ export function getTocItemsForDoc(doc?: ComponentDoc): TocItem[] {
       { type: "link", id: "examples", label: "Examples" },
       { type: "group", label: "Examples", items: contentItems },
       { type: "link", id: "api", label: "API reference" },
-      { type: "link", id: "accessibility", label: "Accessibility" },
     ]
   }
 
@@ -97,6 +96,5 @@ export function getTocItemsForDoc(doc?: ComponentDoc): TocItem[] {
     ...baseItems,
     ...contentItems,
     { type: "link", id: "api", label: "API reference" },
-    { type: "link", id: "accessibility", label: "Accessibility" },
   ]
 }

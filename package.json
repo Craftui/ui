@@ -9,7 +9,7 @@
     "lint": "eslint",
     "registry:build:base": "bunx shadcn@latest build --output ./public/r/base ./registry.base.json",
     "registry:build:radix": "bunx shadcn@latest build --output ./public/r/radix ./registry.radix.json",
-    "registry:build": "npm run registry:build:base && npm run registry:build:radix",
+    "registry:build": "bun run registry:build:base && bun run registry:build:radix",
     "cf:deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf:upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf:preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",

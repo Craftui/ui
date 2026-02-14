@@ -10,12 +10,12 @@
 - `example/`: companion sample app for deployment/config validation.
 
 ## Build, Test, and Development Commands
-- `npm run dev`: start local Next.js dev server.
-- `npm run build`: create production build.
-- `npm run start`: run built app.
-- `npm run lint`: run ESLint (required before PR).
-- `npm run registry:build`: generate both Base and Radix registry artifacts.
-- `npm run cf:preview` / `npm run cf:deploy`: preview or deploy via OpenNext + Cloudflare.
+- `bun run dev`: start local Next.js dev server.
+- `bun run build`: create production build.
+- `bun run start`: run built app.
+- `bun run lint`: run ESLint (required before PR).
+- `bun run registry:build`: generate both Base and Radix registry artifacts.
+- `bun run cf:preview` / `bun run cf:deploy`: preview or deploy via OpenNext + Cloudflare.
 
 ## Coding Style & Naming Conventions
 - Language: TypeScript + React (Next.js 16), Tailwind CSS utilities for component styling.
@@ -48,7 +48,7 @@
 
 ## Testing Guidelines
 - There is no formal test suite configured yet.
-- Minimum quality gate: `npm run lint` + manual verification in `npm run dev`.
+- Minimum quality gate: `bun run lint` + manual verification in `bun run dev`.
 - For UI changes, validate responsive behavior (mobile + desktop) and key routes (`/`, `/components`, `/about`).
 
 ## Commit & Pull Request Guidelines
@@ -61,4 +61,4 @@
   - clear summary of user-visible changes,
   - linked issue (if applicable),
   - screenshots/GIFs for UI edits,
-  - confirmation that `npm run lint` passed.
+  - confirmation that `bun run lint` passed.

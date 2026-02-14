@@ -12,7 +12,6 @@ function toPackageManagerCommands(command: string) {
   const stripped = command.replace(/^bunx\s+/, "")
   return [
     { id: "bun", label: "bun", language: "bash", code: `bunx ${stripped}` },
-    { id: "npm", label: "npm", language: "bash", code: `npx ${stripped}` },
     { id: "pnpm", label: "pnpm", language: "bash", code: `pnpm dlx ${stripped}` },
     { id: "yarn", label: "yarn", language: "bash", code: `yarn dlx ${stripped}` },
   ]
