@@ -4,18 +4,22 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { publishedComponentDocs } from "@/app/components/_lib/docs"
+import { type ComponentDoc } from "@/app/components/_lib/docs"
 
 const groupOrder = ["Foundations", "Utility", "Overlays"] as const
 
-const groups = groupOrder
-  .map((name) => ({
-    name,
-    items: publishedComponentDocs.filter((item) => item.category === name),
-  }))
-  .filter((group) => group.items.length > 0)
+interface ComponentsSidebarNavProps {
+  docs: ComponentDoc[]
+}
 
-function ComponentsSidebarNavImpl() {
+function ComponentsSidebarNavImpl({ docs }: ComponentsSidebarNavProps) {
+  const groups = groupOrder
+    .map((name) => ({
+      name,
+      items: docs.filter((item) => item.category === name),
+    }))
+    .filter((group) => group.items.length > 0)
+
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const mode = searchParams.get("mode")

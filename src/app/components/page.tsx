@@ -1,13 +1,16 @@
 import Link from "next/link"
-import { publishedComponentDocs } from "@/app/components/_lib/docs"
+import { getPublishedComponentDocs } from "@/app/components/_lib/docs.server"
 
 interface ComponentsHomePageProps {
   searchParams?: Promise<{ mode?: string }>
 }
 
+export const dynamic = "force-static"
+
 export default async function ComponentsHomePage({
   searchParams,
 }: ComponentsHomePageProps) {
+  const docs = getPublishedComponentDocs()
   const resolvedSearchParams = searchParams ? await searchParams : undefined
   const modeQuery = resolvedSearchParams?.mode === "radix" ? "?mode=radix" : ""
 
@@ -24,7 +27,7 @@ export default async function ComponentsHomePage({
 
       <section className="space-y-3">
         <div className="grid gap-3 sm:grid-cols-2">
-          {publishedComponentDocs.map((item) => (
+          {docs.map((item) => (
             <Link
               key={item.slug}
               href={`/components/${item.slug}${modeQuery}`}

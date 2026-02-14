@@ -3,9 +3,14 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { getTocItemsForSlug, publishedComponentDocs } from "@/app/components/_lib/docs"
+import { type ComponentDoc, type TocItem } from "@/app/components/_lib/docs"
 
-function ComponentsPageAsideImpl() {
+interface ComponentsPageAsideProps {
+  docs: ComponentDoc[]
+  tocBySlug: Record<string, TocItem[]>
+}
+
+function ComponentsPageAsideImpl({ docs, tocBySlug }: ComponentsPageAsideProps) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const mode = searchParams.get("mode")
@@ -15,8 +20,8 @@ function ComponentsPageAsideImpl() {
     ? undefined
     : pathname.replace("/components/", "")
   const tocItems = React.useMemo(
-    () => getTocItemsForSlug(activeSlug),
-    [activeSlug]
+    () => (activeSlug ? tocBySlug[activeSlug] ?? [] : []),
+    [activeSlug, tocBySlug]
   )
 
   return (
@@ -26,7 +31,7 @@ function ComponentsPageAsideImpl() {
       </p>
       {isComponentsIndex ? (
         <nav className="mt-4" aria-label="Component quick links">
-          {publishedComponentDocs.map((item) => (
+          {docs.map((item) => (
             <Link
               key={item.slug}
               href={`/components/${item.slug}${modeQuery}`}

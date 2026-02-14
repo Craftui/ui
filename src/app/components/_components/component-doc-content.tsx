@@ -10,7 +10,6 @@ import { Preview } from "@/components/ui/preview"
 import { Bell, Cloud, Flame } from "lucide-react"
 import { InstallationCommandBlock } from "@/app/components/_components/installation-command-block"
 import {
-  matchCaseExampleDocs,
   resolveComponentDocContent,
   type ComponentDoc,
   type DocMode,
@@ -19,6 +18,60 @@ import { cn } from "@/lib/utils"
 
 function normalizeMode(value: string | null | undefined): DocMode {
   return value === "radix" ? "radix" : "base"
+}
+
+type MarkdownBlock =
+  | { kind: "paragraph"; text: string }
+  | { kind: "list"; items: string[] }
+
+function parseMarkdownBlocks(markdown: string): MarkdownBlock[] {
+  const lines = markdown.split(/\r?\n/)
+  const blocks: MarkdownBlock[] = []
+  let paragraphBuffer: string[] = []
+  let listBuffer: string[] = []
+
+  const pushParagraph = () => {
+    if (paragraphBuffer.length === 0) {
+      return
+    }
+    blocks.push({
+      kind: "paragraph",
+      text: paragraphBuffer.join(" ").trim(),
+    })
+    paragraphBuffer = []
+  }
+
+  const pushList = () => {
+    if (listBuffer.length === 0) {
+      return
+    }
+    blocks.push({ kind: "list", items: listBuffer })
+    listBuffer = []
+  }
+
+  for (const line of lines) {
+    const trimmed = line.trim()
+
+    if (!trimmed) {
+      pushParagraph()
+      pushList()
+      continue
+    }
+
+    if (trimmed.startsWith("- ")) {
+      pushParagraph()
+      listBuffer.push(trimmed.slice(2).trim())
+      continue
+    }
+
+    pushList()
+    paragraphBuffer.push(trimmed)
+  }
+
+  pushParagraph()
+  pushList()
+
+  return blocks
 }
 
 function renderComponentDemo(doc: ComponentDoc, mode: DocMode) {
@@ -324,25 +377,40 @@ export function ComponentDocContent({
         <InstallationCommandBlock installation={component.installation} mode={activeMode} />
       </section>
 
-      {component.slug === "match-case" ? (
-        <>
-          {matchCaseExampleDocs.map((example) => (
-            <section
-              key={example.id}
-              id={example.id}
-              className="space-y-3 scroll-mt-20"
-            >
-              <h3 className="font-display text-2xl">{example.title}</h3>
-              <p className="text-sm text-muted-foreground">{example.context}</p>
-              <ul className="list-disc space-y-2 pl-5 text-sm text-muted-foreground">
-                {example.points.map((point) => (
-                  <li key={point}>{point}</li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </>
-      ) : null}
+      {component.sections.map((section) => {
+        const blocks = parseMarkdownBlocks(section.markdown)
+
+        return (
+          <section key={section.id} id={section.id} className="space-y-3 scroll-mt-20">
+            <h3 className="font-display text-2xl">{section.title}</h3>
+            <div className="space-y-3">
+              {blocks.map((block, index) => {
+                if (block.kind === "list") {
+                  return (
+                    <ul
+                      key={`${section.id}-list-${index}`}
+                      className="list-disc space-y-2 pl-5 text-sm text-muted-foreground"
+                    >
+                      {block.items.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )
+                }
+
+                return (
+                  <p
+                    key={`${section.id}-paragraph-${index}`}
+                    className="text-sm text-muted-foreground"
+                  >
+                    {block.text}
+                  </p>
+                )
+              })}
+            </div>
+          </section>
+        )
+      })}
 
       <section id="api" className="space-y-3 scroll-mt-20">
         <h3 className="font-display text-2xl">API reference</h3>
