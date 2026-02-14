@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { CodeBlock } from "@/components/ui/code-block"
 import { MatchCase } from "@/components/ui/match-case"
 import { Preview } from "@/components/ui/preview"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Bell, Cloud, Flame } from "lucide-react"
 import { InstallationCommandBlock } from "@/app/components/_components/installation-command-block"
 import {
@@ -196,6 +197,27 @@ export function Example() {
   )
 }`}
       />
+    )
+  }
+
+  if (doc.slug === "tabs") {
+    return (
+      <Tabs defaultValue="overview" className="w-full max-w-2xl">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="usage">Usage</TabsTrigger>
+          <TabsTrigger value="a11y">A11y</TabsTrigger>
+        </TabsList>
+        <TabsContent value="overview">
+          Use tabs to keep related content in one place without navigating away.
+        </TabsContent>
+        <TabsContent value="usage">
+          Pair concise labels with clear panel content to reduce scanning effort.
+        </TabsContent>
+        <TabsContent value="a11y">
+          Arrow keys move focus between triggers; Enter and Space activate tabs.
+        </TabsContent>
+      </Tabs>
     )
   }
 

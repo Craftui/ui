@@ -29,7 +29,19 @@
         }
       ],
       "dependencies": ["@base-ui/react", "class-variance-authority"]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Accessible compound tabs with keyboard navigation.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/base/tabs/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
-

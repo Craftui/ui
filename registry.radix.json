@@ -29,7 +29,19 @@
         }
       ],
       "dependencies": ["@radix-ui/react-slot", "class-variance-authority"]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Accessible compound tabs with keyboard navigation.",
+      "registryDependencies": ["utils"],
+      "files": [
+        {
+          "path": "registry/radix/tabs/tabs.tsx",
+          "type": "registry:ui"
+        }
+      ]
     }
   ]
 }
-
