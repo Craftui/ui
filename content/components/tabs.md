@@ -51,7 +51,17 @@
   ]
 }
 ---
-## API features showcased
-- Compound composition with `Tabs`, `TabsList`, `TabsTrigger`, and `TabsContent`.
-- Arrow key navigation with Home and End support.
-- Controlled and uncontrolled usage with consistent semantics.
+## Examples
+Explore implementation patterns for common Tabs workflows.
+
+## Feature: Controlled state with external sync
+- Wire `value` and `onValueChange` to external state.
+- Keep related UI (status text, analytics hooks) in sync with active tab.
+
+## Feature: Animated tab panels with Match Case
+- Use `MatchCase` to animate panel handoffs while keeping Tabs triggers accessible.
+- Apply one animation primitive across multiple tab states for consistent motion.
+
+## Feature: Vertical orientation for dense layouts
+- Use `orientation="vertical"` when navigation labels are longer.
+- Pair with a two-column layout to keep controls and content readable.

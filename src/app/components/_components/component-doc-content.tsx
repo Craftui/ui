@@ -15,6 +15,10 @@ import {
   MatchCaseExamplePreview,
 } from "@/app/components/_components/match-case-example-previews"
 import {
+  isTabsExampleSection,
+  TabsExamplePreview,
+} from "@/app/components/_components/tabs-example-previews"
+import {
   resolveComponentDocContent,
   type ComponentDoc,
   type DocMode,
@@ -445,6 +449,9 @@ export function ComponentDocContent({
                     {renderMatchCaseExample ? (
                       <MatchCaseExamplePreview sectionId={section.id} />
                     ) : null}
+                    {component.slug === "tabs" && isTabsExampleSection(section.id) ? (
+                      <TabsExamplePreview sectionId={section.id} />
+                    ) : null}
                   </div>
                 </section>
               )
@@ -481,6 +488,9 @@ export function ComponentDocContent({
                     </p>
                   )
                 })}
+                {component.slug === "tabs" && isTabsExampleSection(section.id) ? (
+                  <TabsExamplePreview sectionId={section.id} />
+                ) : null}
               </div>
             </section>
           )
