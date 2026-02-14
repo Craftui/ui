@@ -179,14 +179,14 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       (listNode: HTMLDivElement, triggerNode: HTMLButtonElement) => {
         const listRect = listNode.getBoundingClientRect()
         const triggerRect = triggerNode.getBoundingClientRect()
-        const extraWidth = 8
-        const x = Math.round(triggerRect.left - listRect.left) - extraWidth / 2
-        const y = Math.max(0, Math.round(triggerRect.top - listRect.top) - 2)
+        const inset = 1
+        const x = Math.round(triggerRect.left - listRect.left) + inset
+        const y = Math.round(triggerRect.top - listRect.top) + inset
 
         return {
           transform: `translate(${x}px, ${y}px)`,
-          width: `${Math.round(triggerRect.width) + extraWidth}px`,
-          height: `${Math.round(triggerRect.height)}px`,
+          width: `${Math.max(0, Math.round(triggerRect.width) - inset * 2)}px`,
+          height: `${Math.max(0, Math.round(triggerRect.height) - inset * 2)}px`,
         } satisfies React.CSSProperties
       },
       []
