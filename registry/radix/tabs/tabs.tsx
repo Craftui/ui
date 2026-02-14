@@ -1,3 +1,4 @@
+"use client"
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
@@ -190,19 +191,10 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       const listRect = listNode.getBoundingClientRect()
       const triggerRect = triggerNode.getBoundingClientRect()
 
-      if (orientation === "vertical") {
-        setIndicatorStyle({
-          transform: `translateY(${Math.round(triggerRect.top - listRect.top)}px)`,
-          width: "100%",
-          height: `${Math.round(triggerRect.height)}px`,
-        })
-        return
-      }
-
       setIndicatorStyle({
-        transform: `translateX(${Math.round(triggerRect.left - listRect.left)}px)`,
+        transform: `translate(${Math.round(triggerRect.left - listRect.left)}px, ${Math.round(triggerRect.top - listRect.top)}px)`,
         width: `${Math.round(triggerRect.width)}px`,
-        height: "100%",
+        height: `${Math.round(triggerRect.height)}px`,
       })
     }, [getTriggerNode, orientation, value])
 
@@ -222,19 +214,10 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         const listRect = listNode.getBoundingClientRect()
         const triggerRect = triggerNode.getBoundingClientRect()
 
-        if (orientation === "vertical") {
-          setIndicatorStyle({
-            transform: `translateY(${Math.round(triggerRect.top - listRect.top)}px)`,
-            width: "100%",
-            height: `${Math.round(triggerRect.height)}px`,
-          })
-          return
-        }
-
         setIndicatorStyle({
-          transform: `translateX(${Math.round(triggerRect.left - listRect.left)}px)`,
+          transform: `translate(${Math.round(triggerRect.left - listRect.left)}px, ${Math.round(triggerRect.top - listRect.top)}px)`,
           width: `${Math.round(triggerRect.width)}px`,
-          height: "100%",
+          height: `${Math.round(triggerRect.height)}px`,
         })
       })
 
@@ -266,25 +249,23 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         {indicatorStyle ? (
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 z-0 transition-[transform,width,height] duration-250 ease-out"
+            className="pointer-events-none absolute left-0 top-0 z-0 transition-[transform,width,height] duration-250 ease-out"
             style={indicatorStyle}
           >
-            <svg width="100%" height="100%" viewBox="0 0 100 36" preserveAspectRatio="none">
+            <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
               <rect
-                x="1"
-                y="1"
-                width="98"
-                height="34"
-                rx="8"
+                x="1.25"
+                y="1.25"
+                width="97.5"
+                height="97.5"
+                rx="9"
                 fill="var(--card)"
                 stroke="color-mix(in oklab, var(--border) 78%, transparent)"
               />
             </svg>
           </div>
         ) : null}
-        <div className="relative z-10 inline-flex w-full items-center justify-center gap-0">
-          {children}
-        </div>
+        {children}
       </div>
     )
   }
