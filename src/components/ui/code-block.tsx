@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import hljs from "highlight.js"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { useCodeBlock } from "@/components/ui/use-code-block"
@@ -44,6 +45,44 @@ type CodeBlockContextValue = {
 }
 
 const CodeBlockContext = React.createContext<CodeBlockContextValue | null>(null)
+
+const LANGUAGE_ALIASES: Record<string, string> = {
+  ts: "typescript",
+  tsx: "typescript",
+  js: "javascript",
+  jsx: "javascript",
+  sh: "bash",
+  shell: "bash",
+  zsh: "bash",
+  yml: "yaml",
+  md: "markdown",
+  html: "xml",
+}
+
+function normalizeLanguage(language: string) {
+  const lowered = language.trim().toLowerCase()
+  return LANGUAGE_ALIASES[lowered] ?? lowered
+}
+
+function highlightSnippet(code: string, language: string) {
+  if (!code) {
+    return ""
+  }
+
+  const normalized = normalizeLanguage(language)
+
+  try {
+    if (hljs.getLanguage(normalized)) {
+      return hljs.highlight(code, {
+        language: normalized,
+        ignoreIllegals: true,
+      }).value
+    }
+    return hljs.highlightAuto(code).value
+  } catch {
+    return hljs.highlightAuto(code).value
+  }
+}
 
 function useCodeBlockContext() {
   const context = React.useContext(CodeBlockContext)
@@ -286,6 +325,7 @@ type CodeBlockBodyProps = {
 
 function CodeBlockBody({ className }: CodeBlockBodyProps) {
   const {
+    language,
     wrap,
     showLineNumbers,
     visibleLines,
@@ -334,9 +374,19 @@ function CodeBlockBody({ className }: CodeBlockBodyProps) {
     return visibleLines.slice(0, expandedRenderCount)
   }, [expandedRenderCount, isLargeExpansion, visibleLines])
 
+  const highlightedBlock = React.useMemo(
+    () => highlightSnippet(linesToRender.join("\n"), language),
+    [language, linesToRender]
+  )
+
+  const highlightedLines = React.useMemo(
+    () => linesToRender.map((line) => highlightSnippet(line, language)),
+    [language, linesToRender]
+  )
+
   const renderedLines = React.useMemo(
     () =>
-      linesToRender.map((line, index) => {
+      highlightedLines.map((line, index) => {
         const number = index + 1
         return (
           <div
@@ -351,19 +401,34 @@ function CodeBlockBody({ className }: CodeBlockBodyProps) {
                 {number}
               </span>
             ) : null}
-            <code className={cn(wrap ? "whitespace-pre-wrap break-words" : "whitespace-pre")}>
-              {line || " "}
-            </code>
+            <code
+              className={cn(
+                "hljs bg-transparent p-0",
+                wrap ? "whitespace-pre-wrap break-words" : "whitespace-pre"
+              )}
+              dangerouslySetInnerHTML={{ __html: line || " " }}
+            />
           </div>
         )
       }),
-    [linesToRender, showLineNumbers, wrap]
+    [highlightedLines, showLineNumbers, wrap]
   )
 
   return (
     <div className={cn("relative overflow-x-auto", wrap && "overflow-x-hidden", className)}>
       <CodeBlockCopyButton className="absolute top-2 right-2 z-10" />
-      <div className="p-4 font-mono text-[13px] leading-6 text-foreground">{renderedLines}</div>
+      <div className="p-4 font-mono text-[13px] leading-6 text-foreground">
+        {showLineNumbers ? (
+          renderedLines
+        ) : (
+          <pre className={cn(wrap ? "whitespace-pre-wrap break-words" : "whitespace-pre")}>
+            <code
+              className="hljs bg-transparent p-0"
+              dangerouslySetInnerHTML={{ __html: highlightedBlock || " " }}
+            />
+          </pre>
+        )}
+      </div>
 
       {isLargeExpansion && expandedRenderCount < visibleLines.length ? (
         <div className="px-4 pb-3 text-center text-[11px] uppercase tracking-[0.12em] text-muted-foreground">

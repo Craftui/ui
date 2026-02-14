@@ -81,3 +81,47 @@ body {
 .font-display {
   font-family: var(--font-display), "Fraunces", "Times New Roman", serif;
 }
+
+.hljs {
+  color: color-mix(in oklab, var(--foreground) 92%, white 8%);
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: color-mix(in oklab, var(--muted-foreground) 88%, white 12%);
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-title.function_,
+.hljs-doctag {
+  color: #9d4b00;
+}
+
+.hljs-string,
+.hljs-attr,
+.hljs-attribute,
+.hljs-regexp,
+.hljs-template-tag {
+  color: #2b6a39;
+}
+
+.hljs-number,
+.hljs-literal,
+.hljs-symbol,
+.hljs-variable.constant_ {
+  color: #8a2f7c;
+}
+
+.hljs-title,
+.hljs-title.class_,
+.hljs-function {
+  color: #155b8a;
+}
+
+.hljs-built_in,
+.hljs-type,
+.hljs-params {
+  color: #6a4517;
+}
