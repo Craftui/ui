@@ -12,6 +12,7 @@ type TabsContextValue = {
   orientation: TabsOrientation
   activationMode: TabsActivationMode
   baseId: string
+  getTriggerNode: (value: string) => HTMLButtonElement | undefined
   registerTrigger: (
     value: string,
     node: HTMLButtonElement | null
@@ -81,6 +82,10 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
       []
     )
 
+    const getTriggerNode = React.useCallback((triggerValue: string) => {
+      return triggerMapRef.current.get(triggerValue)
+    }, [])
+
     const moveFocus = React.useCallback(
       (currentValue: string, key: string) => {
         const items = Array.from(triggerMapRef.current.entries()).filter(
@@ -131,10 +136,20 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
         orientation,
         activationMode,
         baseId,
+        getTriggerNode,
         registerTrigger,
         moveFocus,
       }),
-      [value, setValue, orientation, activationMode, baseId, registerTrigger, moveFocus]
+      [
+        value,
+        setValue,
+        orientation,
+        activationMode,
+        baseId,
+        getTriggerNode,
+        registerTrigger,
+        moveFocus,
+      ]
     )
 
     return (
@@ -155,22 +170,123 @@ Tabs.displayName = "Tabs"
 export type TabsListProps = React.HTMLAttributes<HTMLDivElement>
 
 const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
-  ({ className, ...props }, ref) => {
-    const { orientation } = useTabsContext()
+  ({ className, children, ...props }, ref) => {
+    const { orientation, value, getTriggerNode } = useTabsContext()
+    const listRef = React.useRef<HTMLDivElement | null>(null)
+    const [indicatorStyle, setIndicatorStyle] = React.useState<React.CSSProperties>()
+
+    React.useLayoutEffect(() => {
+      const listNode = listRef.current
+      if (!listNode || !value) {
+        setIndicatorStyle(undefined)
+        return
+      }
+
+      const triggerNode = getTriggerNode(value)
+      if (!triggerNode) {
+        setIndicatorStyle(undefined)
+        return
+      }
+
+      const listRect = listNode.getBoundingClientRect()
+      const triggerRect = triggerNode.getBoundingClientRect()
+
+      if (orientation === "vertical") {
+        setIndicatorStyle({
+          transform: `translateY(${Math.round(triggerRect.top - listRect.top)}px)`,
+          width: "100%",
+          height: `${Math.round(triggerRect.height)}px`,
+        })
+        return
+      }
+
+      setIndicatorStyle({
+        transform: `translateX(${Math.round(triggerRect.left - listRect.left)}px)`,
+        width: `${Math.round(triggerRect.width)}px`,
+        height: "100%",
+      })
+    }, [getTriggerNode, orientation, value])
+
+    React.useEffect(() => {
+      if (typeof ResizeObserver === "undefined") {
+        return
+      }
+
+      const listNode = listRef.current
+      const triggerNode = value ? getTriggerNode(value) : undefined
+
+      if (!listNode || !triggerNode) {
+        return
+      }
+
+      const observer = new ResizeObserver(() => {
+        const listRect = listNode.getBoundingClientRect()
+        const triggerRect = triggerNode.getBoundingClientRect()
+
+        if (orientation === "vertical") {
+          setIndicatorStyle({
+            transform: `translateY(${Math.round(triggerRect.top - listRect.top)}px)`,
+            width: "100%",
+            height: `${Math.round(triggerRect.height)}px`,
+          })
+          return
+        }
+
+        setIndicatorStyle({
+          transform: `translateX(${Math.round(triggerRect.left - listRect.left)}px)`,
+          width: `${Math.round(triggerRect.width)}px`,
+          height: "100%",
+        })
+      })
+
+      observer.observe(listNode)
+      observer.observe(triggerNode)
+      return () => observer.disconnect()
+    }, [getTriggerNode, orientation, value])
 
     return (
       <div
-        ref={ref}
+        ref={(node) => {
+          listRef.current = node
+          if (typeof ref === "function") {
+            ref(node)
+          } else if (ref) {
+            ref.current = node
+          }
+        }}
         role="tablist"
         aria-orientation={orientation}
         data-slot="tabs-list"
         data-orientation={orientation}
         className={cn(
-          "inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground",
+          "relative inline-flex h-9 items-center justify-center overflow-hidden rounded-lg bg-muted p-1 text-muted-foreground",
           className
         )}
         {...props}
-      />
+      >
+        {indicatorStyle ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-0 transition-[transform,width,height] duration-250 ease-out"
+            style={indicatorStyle}
+          >
+            <svg width="100%" height="100%" viewBox="0 0 100 36" preserveAspectRatio="none">
+              <rect
+                x="1"
+                y="1"
+                width="98"
+                height="34"
+                rx="8"
+                fill="var(--card)"
+                stroke="color-mix(in oklab, var(--border) 78%, transparent)"
+              />
+            </svg>
+          </div>
+        ) : null}
+        <div className="relative z-10 inline-flex w-full items-center justify-center gap-0">
+          {children}
+        </div>
+      </div>
     )
   }
 )
@@ -218,7 +334,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         data-state={isSelected ? "active" : "inactive"}
         tabIndex={isSelected ? 0 : -1}
         className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-[color,background-color,box-shadow] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm",
+          "relative z-10 inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ring-offset-background transition-[color,background-color] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground",
           className
         )}
         onClick={(event) => {
