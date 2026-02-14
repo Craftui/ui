@@ -72,5 +72,5 @@ Showcases step-based flows where each step is a matched branch rendered in a sha
 ## Nested panel navigation states
 Showcases using path-like keys to render nested command panels with animated state changes.
 
-## Write preview diff pane switching
-Showcases toggling editor panes with minimal visual disruption using matched branch rendering.
+## AI chat response state switching
+Showcases animating assistant response states in one conversation bubble without remounting the whole thread.

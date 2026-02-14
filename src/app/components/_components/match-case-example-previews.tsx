@@ -11,13 +11,13 @@ type MatchCaseExampleId =
   | "loading-to-content-handoff"
   | "step-flow-transitions-in-one-container"
   | "nested-panel-navigation-states"
-  | "write-preview-diff-pane-switching"
+  | "ai-chat-response-state-switching"
 
 const MATCH_CASE_EXAMPLE_IDS = new Set<MatchCaseExampleId>([
   "loading-to-content-handoff",
   "step-flow-transitions-in-one-container",
   "nested-panel-navigation-states",
-  "write-preview-diff-pane-switching",
+  "ai-chat-response-state-switching",
 ])
 
 type ExampleShellProps = {
@@ -218,63 +218,73 @@ function NestedPanelPreview() {
   )
 }
 
-function EditorPanePreview() {
-  const [pane, setPane] = React.useState<"write" | "preview" | "diff">("write")
+function ChatInterfacePreview() {
+  const [state, setState] = React.useState<"thinking" | "answer" | "sources">("thinking")
 
   return (
     <ExampleShell
       labels={[
-        { id: "write", label: "Write" },
-        { id: "preview", label: "Preview" },
-        { id: "diff", label: "Diff" },
+        { id: "thinking", label: "Thinking" },
+        { id: "answer", label: "Answer" },
+        { id: "sources", label: "Sources" },
       ]}
-      value={pane}
-      onChange={(next) => setPane(next as typeof pane)}
+      value={state}
+      onChange={(next) => setState(next as typeof state)}
     >
-      <div className="overflow-hidden rounded-xl border border-border/80 bg-card">
-        <div className="border-b border-border/70 px-3 py-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-          docs/match-case.md
+      <div className="overflow-hidden rounded-xl border border-border/80 bg-card/95">
+        <div className="flex min-h-56 flex-col gap-4 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--background)_92%,var(--accent)_8%)_0%,var(--background)_100%)] p-4">
+          <div className="ml-auto max-w-[84%] rounded-2xl rounded-br-md border border-border/70 bg-card px-3 py-2 text-sm">
+            Design a calm AI chat panel for account settings with short answers.
+          </div>
+          <div className="max-w-[88%] rounded-2xl rounded-bl-md border border-border/70 bg-background/90 px-3 py-2">
+            <p className="mb-2 text-xs uppercase tracking-[0.12em] text-muted-foreground">
+              Craft Assistant
+            </p>
+            <MatchCase value={state} animation="blur-up" duration={220}>
+              {({ containerProps, render }) => (
+                <div {...containerProps} className={cn(containerProps.className, "min-h-16")}>
+                  {render(
+                    "thinking",
+                    <div className="space-y-2">
+                      <p className="text-sm text-foreground/85">Thinking through layout and copy...</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="size-1.5 animate-pulse rounded-full bg-muted-foreground/60 [animation-delay:0ms]" />
+                        <span className="size-1.5 animate-pulse rounded-full bg-muted-foreground/60 [animation-delay:120ms]" />
+                        <span className="size-1.5 animate-pulse rounded-full bg-muted-foreground/60 [animation-delay:240ms]" />
+                      </div>
+                    </div>
+                  )}
+                  {render(
+                    "answer",
+                    <p className="text-sm text-foreground/90">
+                      Use a two-column settings layout, keep the chat in a rounded panel, and pin the
+                      composer to the bottom with concise prompts.
+                    </p>
+                  )}
+                  {render(
+                    "sources",
+                    <div className="space-y-1.5 text-sm">
+                      <p className="text-foreground/90">Suggested references:</p>
+                      <ul className="space-y-1 text-muted-foreground">
+                        <li>1. Conversation shell with sticky composer</li>
+                        <li>2. Status-aware assistant bubble transitions</li>
+                        <li>3. Settings actions as inline quick replies</li>
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+            </MatchCase>
+          </div>
         </div>
-        <MatchCase value={pane} animation="fade" duration={180}>
-          {({ containerProps, render }) => (
-            <div {...containerProps} className={cn(containerProps.className, "min-h-44 p-3")}>
-              {render(
-                "write",
-                <div className="space-y-2">
-                  <p className="text-xs text-muted-foreground">Editor</p>
-                  <textarea
-                    readOnly
-                    value={"## Match Case\nSwitch states with animated transitions."}
-                    className="h-28 w-full resize-none rounded-md border border-border/70 bg-background/80 p-2 text-sm"
-                  />
-                </div>
-              )}
-              {render(
-                "preview",
-                <div className="space-y-2 rounded-md border border-border/70 bg-background/80 p-3">
-                  <p className="text-base font-medium">Match Case</p>
-                  <p className="text-sm text-muted-foreground">
-                    Switch states with animated transitions.
-                  </p>
-                </div>
-              )}
-              {render(
-                "diff",
-                <div className="space-y-1 font-mono text-xs">
-                  <p className="rounded bg-emerald-100/70 px-2 py-1 text-emerald-800">
-                    + Added loading handoff example
-                  </p>
-                  <p className="rounded bg-rose-100/70 px-2 py-1 text-rose-800">
-                    - Removed generic placeholder copy
-                  </p>
-                  <p className="rounded bg-emerald-100/70 px-2 py-1 text-emerald-800">
-                    + Added nested command panel demo
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-        </MatchCase>
+        <div className="border-t border-border/70 bg-card/80 px-3 py-2">
+          <div className="flex items-center gap-2 rounded-xl border border-border/70 bg-background/90 px-3 py-2 text-sm text-muted-foreground">
+            <span className="truncate">Ask follow-up about tone, spacing, or accessibility...</span>
+            <Button size="sm" className="ml-auto h-7 rounded-md px-2 text-xs">
+              Send
+            </Button>
+          </div>
+        </div>
       </div>
     </ExampleShell>
   )
@@ -290,7 +300,7 @@ function renderExample(sectionId: MatchCaseExampleId) {
   if (sectionId === "nested-panel-navigation-states") {
     return <NestedPanelPreview />
   }
-  return <EditorPanePreview />
+  return <ChatInterfacePreview />
 }
 
 function exampleCode(sectionId: MatchCaseExampleId): string {
@@ -319,18 +329,24 @@ function exampleCode(sectionId: MatchCaseExampleId): string {
   )}
 </MatchCase>`
   }
-  if (sectionId === "write-preview-diff-pane-switching") {
-    return `const [pane, setPane] = React.useState<"write" | "preview" | "diff">("write")
+  if (sectionId === "ai-chat-response-state-switching") {
+    return `const [state, setState] = React.useState<"thinking" | "answer" | "sources">("thinking")
 
-<MatchCase value={pane} animation="fade" duration={180}>
-  {({ containerProps, render }) => (
-    <div {...containerProps}>
-      {render("write", <EditorPane />)}
-      {render("preview", <MarkdownPreview />)}
-      {render("diff", <DiffView />)}
-    </div>
-  )}
-</MatchCase>`
+<div className="chat-thread">
+  <UserMessage />
+  <AssistantBubble>
+    <MatchCase value={state} animation="blur-up" duration={220}>
+      {({ containerProps, render }) => (
+        <div {...containerProps}>
+          {render("thinking", <TypingState />)}
+          {render("answer", <AnswerState />)}
+          {render("sources", <SourceListState />)}
+        </div>
+      )}
+    </MatchCase>
+  </AssistantBubble>
+  <Composer />
+</div>`
   }
   return `const [step, setStep] = React.useState<"login" | "otp" | "done">("login")
 
