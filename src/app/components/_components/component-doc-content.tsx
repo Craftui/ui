@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { CodeBlock } from "@/components/ui/code-block"
 import { MatchCase } from "@/components/ui/match-case"
+import { Preview } from "@/components/ui/preview"
 import { Bell, Cloud, Flame } from "lucide-react"
 import { InstallationCommandBlock } from "@/app/components/_components/installation-command-block"
 import {
@@ -105,6 +106,39 @@ function renderComponentDemo(doc: ComponentDoc, mode: DocMode) {
       <p className="max-w-xl text-center text-sm text-muted-foreground">
         Match Case demo is interactive on its component page.
       </p>
+    )
+  }
+
+  if (doc.slug === "preview") {
+    return (
+      <Preview
+        className="w-full max-w-3xl"
+        preview={
+          <div className="flex w-full flex-wrap items-center justify-center gap-3">
+            <Button>Default</Button>
+            <Button size="icon" aria-label="Open item">
+              +
+            </Button>
+          </div>
+        }
+        code={`import { Preview } from "@/components/ui/preview"
+import { Button } from "@/components/ui/button"
+
+export function Example() {
+  return (
+    <Preview
+      preview={
+        <div className="flex items-center justify-center gap-3">
+          <Button>Default</Button>
+          <Button size="icon" aria-label="Open item">+</Button>
+        </div>
+      }
+      code={\`<Button>Default</Button>\`}
+      language="tsx"
+    />
+  )
+}`}
+      />
     )
   }
 
@@ -212,8 +246,11 @@ export function ComponentDocContent({
       </section>
 
       <section id="demo" className="scroll-mt-20">
-        <div className="flex min-h-56 w-full items-center justify-center rounded-2xl border border-border/80 bg-accent/55 p-8 md:min-h-64 md:p-10">
-          {component.slug === "match-case" ? (
+        {component.slug === "preview" ? (
+          renderComponentDemo(component, activeMode)
+        ) : (
+          <div className="flex min-h-56 w-full items-center justify-center rounded-2xl border border-border/80 bg-accent/55 p-8 md:min-h-64 md:p-10">
+            {component.slug === "match-case" ? (
             <div className="flex w-full max-w-2xl flex-col gap-4">
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
@@ -272,10 +309,11 @@ export function ComponentDocContent({
                 )}
               </MatchCase>
             </div>
-          ) : (
-            renderComponentDemo(component, activeMode)
-          )}
-        </div>
+            ) : (
+              renderComponentDemo(component, activeMode)
+            )}
+          </div>
+        )}
       </section>
 
       <section id="installation" className="space-y-3 scroll-mt-20">
