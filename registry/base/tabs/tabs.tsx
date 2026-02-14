@@ -180,14 +180,15 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
         const listRect = listNode.getBoundingClientRect()
         const triggerRect = triggerNode.getBoundingClientRect()
         const insetX = 1
-        const insetY = orientation === "horizontal" ? 2 : 1
+        const insetTop = 1
+        const insetBottom = orientation === "horizontal" ? 3 : 1
         const x = Math.round(triggerRect.left - listRect.left) + insetX
-        const y = Math.round(triggerRect.top - listRect.top) + insetY
+        const y = Math.round(triggerRect.top - listRect.top) + insetTop
 
         return {
           transform: `translate(${x}px, ${y}px)`,
           width: `${Math.max(0, Math.round(triggerRect.width) - insetX * 2)}px`,
-          height: `${Math.max(0, Math.round(triggerRect.height) - insetY * 2)}px`,
+          height: `${Math.max(0, Math.round(triggerRect.height) - insetTop - insetBottom)}px`,
         } satisfies React.CSSProperties
       },
       [orientation]
