@@ -63,9 +63,6 @@
   ]
 }
 ---
-## Render keyed icon swapping
-Showcases `render(match, node)` for swapping compact icon states without changing container structure.
-
 ## Loading to content handoff
 Showcases smooth handoff between loading and loaded branches using `value` plus transition timing.
 
@@ -75,14 +72,5 @@ Showcases step-based flows where each step is a matched branch rendered in a sha
 ## Nested panel navigation states
 Showcases using path-like keys to render nested command panels with animated state changes.
 
-## Responsive viewport mode switching
-Showcases responsive mode changes by matching device keys to dedicated rendered views.
-
 ## Write preview diff pane switching
 Showcases toggling editor panes with minimal visual disruption using matched branch rendering.
-
-## Priority based toast presentation
-Showcases semantic priority switching where icon, tone, and copy update from a shared state key.
-
-## Inspector tab transitions with stable shell
-Showcases keeping surrounding inspector chrome stable while internal tab content transitions.
