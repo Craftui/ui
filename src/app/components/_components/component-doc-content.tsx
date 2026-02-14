@@ -412,7 +412,9 @@ export function ComponentDocContent({
         <section id="examples" className="space-y-5 scroll-mt-20">
           <h3 className="font-display text-2xl">Examples</h3>
           <div className="space-y-8">
-            {component.sections.map((section) => {
+            {component.sections
+              .filter((section) => section.id !== "examples")
+              .map((section) => {
               const blocks = parseMarkdownBlocks(section.markdown)
               const renderMatchCaseExample = isMatchCaseExampleSection(section.id)
 
@@ -456,7 +458,7 @@ export function ComponentDocContent({
                   </div>
                 </section>
               )
-            })}
+              })}
           </div>
         </section>
       ) : (

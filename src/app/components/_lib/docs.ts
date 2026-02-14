@@ -73,11 +73,15 @@ export function getTocItemsForDoc(doc?: ComponentDoc): TocItem[] {
     { type: "link", id: "installation", label: "Installation" },
   ]
 
-  const contentItems = (doc?.sections ?? []).map<TocLinkItem>((section) => ({
-    type: "link",
-    id: section.id,
-    label: section.title,
-  }))
+  const contentItems = (doc?.sections ?? [])
+    .filter((section) =>
+      doc?.slug === "match-case" || doc?.slug === "tabs" ? section.id !== "examples" : true
+    )
+    .map<TocLinkItem>((section) => ({
+      type: "link",
+      id: section.id,
+      label: section.title,
+    }))
 
   if ((doc?.slug === "match-case" || doc?.slug === "tabs") && contentItems.length > 0) {
     return [
